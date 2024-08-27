@@ -105,7 +105,7 @@ public class L_string {
     //9. StringBuilder, StringBuffer
     // 셜명 : 둘다 가변(mutable)문자열을 다루기위한 클래스
     //전자는 성능우수 후자는 스레드 안전버전
-    //활용 : 반복적인 문자열 수정이 필요한 문제에서 성능을 최적화하기위해 사용
+    //활용 : 하반복적인 문자열 수정이 필요한 문제에서 성능을 최적화기위해 사용
     public static void exam9() {
         StringBuilder sd = new StringBuilder();
         sd.append("Hello");
@@ -147,7 +147,7 @@ public class L_string {
     }
 
     public static void main(String[] args) {
-        exam11();
+        exam9();
 
     }
 }

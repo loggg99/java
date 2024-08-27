@@ -30,10 +30,13 @@ public class K_member_management {
             System.out.println("회원이 꽉 찼다.");
             return;
         }
+        Scanner sc = new Scanner(System.in);
+        System.out.println("이름을 입력하시오");
+        String name = sc.nextLine();
     }
 
-    Scanner sc = new Scanner(System.in);
-    
+
+
 
     public static void main(String[] args) {
 

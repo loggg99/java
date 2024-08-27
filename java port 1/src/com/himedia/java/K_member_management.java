@@ -164,6 +164,32 @@ public class K_member_management {
         //찾은 행 뒤의 행들을 모두 땡긴 후, 마지막 행을 null 처리
         //전체 회원수도 차감시킨다.
         Scanner sc = new Scanner(System.in);
+        System.out.println("삭제 이메일을 입력하시오");
+        String email = sc.nextLine();
+        int idx = -1;
+
+        for (int i = 0; i < members.length; i++ ) {
+            if (email.equals(members[i][1])) {
+                idx = i;
+                break;
+            }
+        }
+        if (idx == -1) {
+            System.out.println("찾는 회원 없음");
+            return;
+        }
+        members[idx][0] = null;
+        members[idx][1] = null;
+        members[idx][2] = null;
+
+        for ( int i = idx; i < totalMemberCnt - 1; i++ ) {
+            members[i][0] = members[i+1][0];
+            members[i][1] = members[i+1][1];
+            members[i][2] = members[i+1][2];
+        }
+        totalMemberCnt--;
+
+
 
     }
 
