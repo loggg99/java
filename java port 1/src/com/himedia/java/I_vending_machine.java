@@ -51,7 +51,7 @@ public class I_vending_machine {
 
                     }else{
                         totalMoney = result;
-                        System.out.println("콜라나옴");
+
                     }
                     System.out.println("콜라가 나왔다.");
                     break;
