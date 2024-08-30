@@ -9,8 +9,10 @@ public class G_animal {
 
     }
     public void sleep() {
+
         System.out.println(name + "is sleep");
     }
+
     public void walk() {
 
 

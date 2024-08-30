@@ -11,6 +11,7 @@ public class G_bird extends G_animal{
 
     @Override
     public void walk() {
+
         System.out.println("사뿐");
     }
 }

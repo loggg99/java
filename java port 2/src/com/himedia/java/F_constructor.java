@@ -25,7 +25,7 @@ package com.himedia.java;
 // 3. 오버로딩을 통한 유연성 : 생성자 오버로딩을 통해, 다양한 상황에 맞춰 객체를 생성할 수 있다.
 // 4. 캡슐화 : 생성자를 통해 필수적인 초기화가 강제되므로, 객체가 항상 유효한 상태로 생성되도록 할 수 있다
 
-public class F_construtor {
+public class F_constructor {
     public static void main(String[] args) {
         F_person1 p1 = new F_person1();
         p1.display();
@@ -49,5 +49,11 @@ public class F_construtor {
 
         p4.display();
         pCopy.display();
+        // 생성자에서 다른 생성자 호출하기 - this()
+        // 생성자의 이름으로 클래스 이름 대신 this를  사용
+        // 한 생성자에서 다른 생성자를 호출할 떄는 반드시 첫줄에서만 호출
+
+        F_person5 p5 = new F_person5();
+
     }
 }

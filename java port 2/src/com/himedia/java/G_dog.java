@@ -9,6 +9,7 @@ public class G_dog extends G_animal{
 
     @Override
     public void walk() {
+
         System.out.println("우당당캉ㅊ탕ㅌ앝아탕");
     }
 }
