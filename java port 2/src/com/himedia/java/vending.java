@@ -3,11 +3,13 @@ package com.himedia.java;
 public interface vending {
 
 
-    public void printMenu();
-    public int getChoice();
-    public int getMoney();
-    public int calcMoney(int price);
-    public void printException();
+    void printMenu();
+    int getChoice();
+    int getMoney();
+    int calcMoney(int price);
+    void printException();
+    void setTotalMoney(int totalMoney);
+    int getTotalMoney();
 
 
 
