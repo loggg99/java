@@ -38,7 +38,30 @@ class A_person {
     }
 }
 
-public class A_collection_queue {
+class Graph {
+    private LinkedList<Integer>[] graphList;
+
+    public Graph(int vertexCount) {
+        this.graphList = new LinkedList[vertexCount + 1];
+
+        // 각 인접리스트 초기화
+        for (int i = 0; i < graphList.length; i++) {
+            graphList[i] = new LinkedList<>();
+        }
+    }
+
+    // 간선 추가
+    public void addEdge(int v, int w) {
+        graphList[v].add(w);
+        graphList[w].add(v);
+    }
+
+    public LinkedList<Integer>[] getGraphList() {
+        return graphList;
+    }
+}
+
+public class A_collections_queue {
 
     // 1. LinkedList
     // - LinkedList는 Queue인터페이스를 구현하므로, 큐로 사용할 수 있다.
@@ -222,19 +245,64 @@ public class A_collection_queue {
         }
     }
 
-    // 3 ArrayQueue
-    // ArrayQueue는 큐와 덱(Deque, 양방향ㅇ 큐)으로 사용할 수 있는 매우 효율적인 클래스이다.
-    // 고정된 크기의 배열 기반으로 동작하지 않고 필요에 아라 크기가 자동으로 변한다.
-
-    public static void exam2_6() {
+    // 3. ArrayQueue
+    // - ArrayQueue는 큐와 덱(Deque, 양방향 큐)으로 사용할 수 있는 매우 효율적인 클래스이다.
+    // - 고정된 크기의 배열 기반으로 동작하지 않고, 필요에 따라 크기가 자동으로 조정된다.
+    public static void exam3() {
         Queue<String> arrayQueue = new ArrayDeque<>();
 
         arrayQueue.add("Apple");
         arrayQueue.add("Banana");
-        arrayQueue.add("C");
+        arrayQueue.add("Orange");
+
+        System.out.println("Peek : " + arrayQueue.peek());
+
+        System.out.println("Poll : " + arrayQueue.poll());
+
+        // 나머지 동일..
+
+    }
+
+    public static void exam4() {
+        boolean[] visited = new boolean[9 + 1];
+
+        Graph graph = new Graph(9);
+        graph.addEdge(1, 2);
+        graph.addEdge(1, 3);
+        graph.addEdge(2, 3);
+        graph.addEdge(2, 4);
+        graph.addEdge(2, 6);
+        graph.addEdge(3, 7);
+        graph.addEdge(4, 5);
+        graph.addEdge(4, 7);
+        graph.addEdge(4, 8);
+        graph.addEdge(5, 6);
+        graph.addEdge(7, 8);
+        graph.addEdge(8, 9);
+
+        // 탐색 -> BFS
+        int startVertex = 1;
+        Queue<Integer> queue = new LinkedList<>();
+        visited[startVertex] = true;
+        queue.add(startVertex);
+
+        while (queue.size() > 0) {
+            int vertex = queue.poll();
+            System.out.print( vertex + " -> " );
+
+            // 현재 정점의 인접 정점들 중 방분하지 않은 정점을 모두 큐에 추가
+            for (int w : graph.getGraphList()[vertex]) {
+                if (!visited[w]) {
+                    queue.add(w);
+                    visited[w] = true;
+                }
+            }
+
+        }
+
     }
 
     public static void main(String[] args) {
-        exam2_2();
+        exam4();
     }
 }
