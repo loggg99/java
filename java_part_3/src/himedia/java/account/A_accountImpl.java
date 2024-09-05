@@ -15,6 +15,7 @@ public class A_accountImpl implements A_account {
    private List<String> histories;
 
    public A_accountImpl() {
+
        histories = new ArrayList<>();
    }
 
@@ -99,7 +100,8 @@ public class A_accountImpl implements A_account {
 
     @Override
     public void manageHistory(String message) {
-        histories.add(message + " - " + getNowDateTime());
+
+       histories.add(message + " - " + getNowDateTime());
     }
 
 

@@ -1,0 +1,6 @@
+A_account.java(I)
+A_accountImpl.java
+->History 저장소 collection으로 바꿀것
+->Histories는 계속 저장될수 있다.
+A_start.java
+-> 상수로서 사용 목적이 아니하면 static사용 금지

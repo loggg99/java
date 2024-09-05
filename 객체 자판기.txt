@@ -1,0 +1,11 @@
+-> 모든 기능은 이전에 만들었던 자판기와 동일
+
+vending.class(I) -> 자판기 기능에 해당하는 모든 메서드 명세
+machine.class ->   인터페이스에 명세된 메서드 구현
+		필드는 모두 private
+		필드 값 제어는 getter와 settter로만 한다.
+		setter에 유효성 체크 추가할것
+start.class -> 오직 while문과 switch-case문만 가진다
+                 다형성을 적용하여 생성
+static은 오직 main메서드만 사용
+단, 상수목적으로는 사용ok		
