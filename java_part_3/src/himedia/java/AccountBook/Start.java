@@ -10,17 +10,20 @@ public class Start {
         Scanner sc = new Scanner(System.in);
 
         while(true) {
-            AB.printMenu();
-            int choice = sc.nextInt();
+
+            int choice = AB.printMenu();
             switch (choice) {
                 case 1:
                     AB.addAB();
                     break;
                 case 2:
+                    AB.searchAB();
                     break;
                 case 3:
+                    AB.TotalDeleteAB();
                     break;
                 case 4:
+                    AB.deleteAB();
                     break;
                 case 5:
                     System.out.println("thank you");

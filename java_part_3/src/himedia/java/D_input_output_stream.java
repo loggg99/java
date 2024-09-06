@@ -67,7 +67,7 @@ public class D_input_output_stream {
              */
             // 방법.2 -> try - with - resources
             try ( FileOutputStream fos = new FileOutputStream(todayFile.toFile()) ) {
-                String content = "i will always remember the day \n Light a feather";
+                String content = "Hello World";
                 fos.write(content.getBytes());
                 System.out.println(today + ".txt 파일을 생성하고 내용을 썼습니다.");
             } catch (FileNotFoundException e) {
@@ -76,21 +76,9 @@ public class D_input_output_stream {
                 throw new RuntimeException(e);
             }
         } else {
-            String content = "i will always remember the day \n" +
-                    " Light a feather";
-            String updatedContent = "I will always remember the day \n Light as feather";
             System.out.println(today + ".txt 파일이 이미 존재합니다.");
-            try (FileOutputStream fos = new FileOutputStream(todayFile.toFile())) {
-                fos.write(updatedContent.getBytes());
-                System.out.println(today + ".txt 파일의 내용을 수정했습니다.");
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
         }
-       }
-
+    }
 
     public void exam3() {
         today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));

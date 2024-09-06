@@ -1,5 +1,6 @@
 package himedia.java.AccountBook;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -7,13 +8,15 @@ import java.util.Scanner;
 public class AccountImpl implements AccountBook {
 
     private List<String> stuffs;
-    private List<Integer> price;
-    private Scanner getNowDateTime;
+    private List<Integer> prices;
+    private List<String> dates;
+
 
 
     public AccountImpl() {
         stuffs = new ArrayList<>();
-        price = new ArrayList<>();
+        prices = new ArrayList<>();
+        dates = new ArrayList<>();
     }
 
 
@@ -21,47 +24,54 @@ public class AccountImpl implements AccountBook {
     public int printMenu() {
         Scanner sc = new Scanner(System.in);
         System.out.println("원하는 메뉴를 선택하시오");
-        System.out.println("[1]내역 추가 [2]내역조회 [3]전체삭제 [4]내역 삭제 [5]프로그램 종료");
+        System.out.println("[1]내역 추가 [2]내역 조회 [3]전체 삭제 [4]내역 삭제 [5]프로그램 종료");
         return sc.nextInt();
 
     }
 
     @Override
     public String addAB() {
-
         Scanner sc = new Scanner(System.in);
+
+        String currentDate = LocalDate.now().toString();
         System.out.println("물건 내역을 입력하시오");
-        String name = sc.nextLine() + "-" + getNowDateTime.nextLine();
+        String name = sc.nextLine();
         System.out.println("가격을 입력하시오");
         String cost = sc.nextLine();
 
-        manageStuffs(name,price);
-
-
-        return "내역 입력 완료";
-    }
-
-    public void manageStuffs(String name,String price) {
         stuffs.add(name);
-    }
+        prices.add(Integer.parseInt(cost));
+        dates.add(currentDate);
 
+        System.out.println("내역 입력 완료 : " + currentDate+ " - " +name+ " - " +cost+ "원");
+
+        return "";
+    }
 
 
 
     @Override
     public String searchAB() {
         System.out.println("내역 조회");
-        Scanner sc = new Scanner(System.in);
-        System.out.println("물건의 이름을 입력하시오");
-        String name = sc.nextLine();
+        int totalPrice = 0;
+
         if (stuffs.isEmpty()) {
             System.out.println("내역이 없다.");
         } else {
-            for (String _ : stuffs) {
+            for (int i = 0; i < stuffs.size(); i++) {
+                String stuff = stuffs.get(i);
+                int price = prices.get(i);
+                String date = dates.get(i);
 
-                System.out.println(name);
+
+
+                totalPrice += price;
+
+                System.out.println("날짜 : " + date + " - 내역 : " +stuff + " - 가격 : " +price+ "원");
+
+
             }
-
+            System.out.println("합계 : " +totalPrice+ "원");
 
             return "";
         }
@@ -72,11 +82,32 @@ public class AccountImpl implements AccountBook {
 
     @Override
     public String TotalDeleteAB() {
+        dates.clear();
+        stuffs.clear();
+        prices.clear();
+        System.out.println("전체 내역 삭제 완료");
+
+
         return "";
     }
 
     @Override
     public String deleteAB() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("삭제 내역 입력");
+        String name = sc.nextLine();
+        for(int i = 0; i < stuffs.size(); i++) {
+            if(stuffs.get(i).equals(name)) {
+                stuffs.remove(i);
+                prices.remove(i);
+                dates.remove(i);
+
+            }
+
+        }
+
+        System.out.println("삭제 완료");
         return "";
+
     }
 }
