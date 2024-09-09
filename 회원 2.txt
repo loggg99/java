@@ -1,0 +1,21 @@
+id pk autoincrement
+user Id not null
+password not null
+name not null
+age int not null
+phone
+1. 회원가입
+-> user id
+-> pw
+-> name
+-> age
+-> pw
+2. 로그인
+-> user Id
+-> pw
+Successful
+Welcome (name)!
+age:~, phone:~
+Fail
+Nothing !
+3. 종료
