@@ -1,0 +1,157 @@
+hi-pc-999@DESKTOP-Q08NDSN MINGW64 ~
+$ ls
+'3D Objects'/
+ AppData/
+'Application Data'@
+ Autodesk/
+ Contacts/
+ Cookies@
+ Desktop/
+ Documents/
+ Downloads/
+ Favorites/
+ IntelGraphicsProfiles/
+ Links/
+'Local Settings'@
+ Music/
+'My Documents'@
+ NTUSER.DAT
+ NTUSER.DAT{f04a6795-d7c1-11eb-b299-fcaa141e65f5}.TM.blf
+ NTUSER.DAT{f04a6795-d7c1-11eb-b299-fcaa141e65f5}.TMContainer00000000000000000001.regtrans-ms
+ NTUSER.DAT{f04a6795-d7c1-11eb-b299-fcaa141e65f5}.TMContainer00000000000000000002.regtrans-ms
+ NetHood@
+ OneDrive/
+ Oracle/
+ Pictures/
+ PrintHood@
+ Recent@
+'Saved Games'/
+ Searches/
+ SendTo@
+ Templates@
+ Untitled.ipynb
+ Untitled1.ipynb
+ Untitled2.ipynb
+ Videos/
+ eclipse-workspace/
+ hsperfdata_hi-pc-999/
+ ntuser.dat.LOG1
+ ntuser.dat.LOG2
+ ntuser.ini
+'시작 메뉴'@
+
+hi-pc-999@DESKTOP-Q08NDSN MINGW64 ~
+$ cd Desktop/
+
+hi-pc-999@DESKTOP-Q08NDSN MINGW64 ~/Desktop
+$ cd java/
+
+hi-pc-999@DESKTOP-Q08NDSN MINGW64 ~/Desktop/java (master)
+$ ls
+'java port 1'/   new.txt
+
+hi-pc-999@DESKTOP-Q08NDSN MINGW64 ~/Desktop/java (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   java port 1/src/com/himedia/java/A_helloworld.java
+        new file:   java port 1/src/com/himedia/java/B_variable_function.java
+        new file:   java port 1/src/com/himedia/java/C_numeral.java
+        new file:   java port 1/src/com/himedia/java/D_scanner_print.java
+        new file:   java port 1/src/com/himedia/java/E_casting.java
+        new file:   java port 1/src/com/himedia/java/F_operator.java
+        new file:   java port 1/src/com/himedia/practice/A_hellowworld.java
+        new file:   java port 1/src/com/himedia/practice/B_variable_function.java
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   java port 1/src/com/himedia/java/A_helloworld.java
+        modified:   java port 1/src/com/himedia/java/B_variable_function.java
+        modified:   java port 1/src/com/himedia/java/C_numeral.java
+        modified:   java port 1/src/com/himedia/java/D_scanner_print.java
+        modified:   java port 1/src/com/himedia/java/E_casting.java
+        modified:   java port 1/src/com/himedia/java/F_operator.java
+        modified:   java port 1/src/com/himedia/practice/A_hellowworld.java
+        modified:   java port 1/src/com/himedia/practice/B_variable_function.java
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        java port 1/.gitignore
+        java port 1/.idea/
+        java port 1/java port 1.iml
+        java port 1/src/Main.java
+
+
+hi-pc-999@DESKTOP-Q08NDSN MINGW64 ~/Desktop/java (master)
+$ git add .
+warning: in the working copy of 'java port 1/.gitignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'java port 1/src/Main.java', LF will be replaced by CRLF the next time Git touches it
+
+hi-pc-999@DESKTOP-Q08NDSN MINGW64 ~/Desktop/java (master)
+$ git add .
+
+hi-pc-999@DESKTOP-Q08NDSN MINGW64 ~/Desktop/java (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   java port 1/.gitignore
+        new file:   java port 1/.idea/.gitignore
+        new file:   java port 1/.idea/misc.xml
+        new file:   java port 1/.idea/modules.xml
+        new file:   java port 1/.idea/vcs.xml
+        new file:   java port 1/java port 1.iml
+        new file:   java port 1/src/Main.java
+        new file:   java port 1/src/com/himedia/java/A_helloworld.java
+        new file:   java port 1/src/com/himedia/java/B_variable_function.java
+        new file:   java port 1/src/com/himedia/java/C_numeral.java
+        new file:   java port 1/src/com/himedia/java/D_scanner_print.java
+        new file:   java port 1/src/com/himedia/java/E_casting.java
+        new file:   java port 1/src/com/himedia/java/F_operator.java
+        new file:   java port 1/src/com/himedia/practice/A_hellowworld.java
+        new file:   java port 1/src/com/himedia/practice/B_variable_function.java
+
+
+hi-pc-999@DESKTOP-Q08NDSN MINGW64 ~/Desktop/java (master)
+$ git commit -m "java"
+[master c155637] java
+ 15 files changed, 460 insertions(+)
+ create mode 100644 java port 1/.gitignore
+ create mode 100644 java port 1/.idea/.gitignore
+ create mode 100644 java port 1/.idea/misc.xml
+ create mode 100644 java port 1/.idea/modules.xml
+ create mode 100644 java port 1/.idea/vcs.xml
+ create mode 100644 java port 1/java port 1.iml
+ create mode 100644 java port 1/src/Main.java
+ create mode 100644 java port 1/src/com/himedia/java/A_helloworld.java
+ create mode 100644 java port 1/src/com/himedia/java/B_variable_function.java
+ create mode 100644 java port 1/src/com/himedia/java/C_numeral.java
+ create mode 100644 java port 1/src/com/himedia/java/D_scanner_print.java
+ create mode 100644 java port 1/src/com/himedia/java/E_casting.java
+ create mode 100644 java port 1/src/com/himedia/java/F_operator.java
+ create mode 100644 java port 1/src/com/himedia/practice/A_hellowworld.java
+ create mode 100644 java port 1/src/com/himedia/practice/B_variable_function.java
+
+hi-pc-999@DESKTOP-Q08NDSN MINGW64 ~/Desktop/java (master)
+$ git push
+Enumerating objects: 25, done.
+Counting objects: 100% (25/25), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (23/23), done.
+Writing objects: 100% (24/24), 7.70 KiB | 2.57 MiB/s, done.
+Total 24 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), done.
+To https://github.com/loggg99/java.git
+   e4ac347..c155637  master -> master
+
+
+강제 push
+hi-pc-999@DESKTOP-Q08NDSN MINGW64 ~/Desktop/java (master)
+$ git push origin +master
+
