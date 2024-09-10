@@ -1,0 +1,21 @@
+SHOW DATABASES;
+
+CREATE DATABASE java_basic
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
+CREATE DATABASE user;
+
+USE user;
+
+
+CREATE TABLE users (
+id INT AUTO_INCREMENT PRIMARY KEY,
+userId VARCHAR(50) NOT NULL UNIQUE,
+password VARCHAR(50) NOT NULL,
+name VARCHAR(50) NOT NULL,
+age INT NOT NULL,
+phone VARCHAR(20)
+);
+
+drop database user ;

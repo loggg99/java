@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class member {
     public Connection connection() {
-        String url = "jdbc:mysql://localhost:3306/java_basic_users";
+        String url = "jdbc:mysql://localhost:3306/users";
         String user = "root";
         String password = "1234";
 

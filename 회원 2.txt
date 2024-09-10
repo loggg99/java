@@ -9,6 +9,7 @@ phone
 -> pw
 -> name
 -> age
+-> phone
 -> pw
 2. 로그인
 -> user Id
