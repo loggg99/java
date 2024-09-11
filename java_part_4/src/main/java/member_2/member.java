@@ -11,9 +11,12 @@ public class member {
 
         try {
 
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
 
+        return null;
     }
 
    public static int addmember(){
@@ -30,6 +33,7 @@ public class member {
        String phoneNumber = sc.next();
 
 
+       return id;
    }
 
 
