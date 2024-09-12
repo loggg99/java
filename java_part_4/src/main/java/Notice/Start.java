@@ -8,8 +8,7 @@ public class Start {
         Scanner sc = new Scanner(System.in);
 
         while (true) {
-            notice.printMenu();
-            int choice = sc.nextInt();
+            int choice = notice.printMenu();
             switch (choice) {
                 case 1:
                     notice.login();
@@ -18,8 +17,10 @@ public class Start {
                     notice.signUp();
                     break;
                 case 3:
+                    notice.content();
                     break;
                 case 4:
+                    notice.createContent();
                     break;
                 case 5:
                     break;
@@ -30,8 +31,12 @@ public class Start {
                 case 8:
                     break;
                 case 9:
+                    notice.exitProgram();
                     System.out.println("thank you ~ see you again");
-                    return;
+                    break;
+                default:
+                    System.out.println("it's wrong choice try again");
+                    break;
             }
         }
     }

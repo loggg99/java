@@ -4,7 +4,7 @@ public interface Notice {
     void login();
     void signUp();
     void content();
-    void updateContent();
+    void createContent();
     void modifyContent();
     void deleteContent();
     void logout();
