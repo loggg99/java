@@ -23,10 +23,13 @@ public class Start {
                     notice.createContent();
                     break;
                 case 5:
+                    notice.modifyContent();
+
                     break;
                 case 6:
                     break;
                 case 7:
+                    notice.logout();
                     break;
                 case 8:
                     break;

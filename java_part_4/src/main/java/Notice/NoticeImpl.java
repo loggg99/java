@@ -168,6 +168,30 @@ public class NoticeImpl implements Notice {
             System.out.println("it's possible to modify content if you are logged in");
             return;
         }
+        System.out.println("modify ID : ");
+        String contentId = sc.nextLine();
+        System.out.println("New Title : ");
+        String NewTitle = sc.nextLine();
+        System.out.println("New Text : ");
+        String NewText = sc.nextLine();
+
+        String query = "UPDATE Content SET title = ?, text = ? WHERE id =? AND authorId = ?";
+        try {
+            Connection conn = connection();
+            PreparedStatement PreparedStatement = conn.prepareStatement(query);
+            PreparedStatement.setString(1, NewTitle);
+            PreparedStatement.setString(2, NewText);
+            PreparedStatement.setString(3, contentId );
+            PreparedStatement.setString(4, loginUser);
+            int result = PreparedStatement.executeUpdate();
+
+            if (result > 0) {
+                System.out.println("Modify Content Successfully");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
 
     }
@@ -179,12 +203,22 @@ public class NoticeImpl implements Notice {
 
     @Override
     public void logout() {
+        if(loginUser != null){
+            System.out.println("You are logged out");
+            loginUser = null;
+        }else{
+            System.out.println("You are not able to log out");
+        }
 
     }
 
     @Override
     public void deleteId() {
-
+        if (loginUser == null) {
+            System.out.println("you are not able to delete ID unless you are logged in");
+        } else {
+            System.out.println("you really want to delete ID");
+        }
     }
 
     @Override
@@ -199,7 +233,7 @@ public class NoticeImpl implements Notice {
         Scanner sc = new Scanner(System.in);
         System.out.println("============== Menu ===============");
         System.out.println("[1]login [2]signUp [3]content [4]createContent");
-        System.out.println("[5]updateContent [6]deleteContent [7]logout");
+        System.out.println("[5]ModifyContent [6]deleteContent [7]logout");
         System.out.println("[8]deleteId [9]exitProgram");
 
         return sc.nextInt();
