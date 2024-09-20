@@ -1,4 +1,4 @@
-package com.example.tobi.spring_tobi;
+package com.example.tobi.springtobi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,19 +1,19 @@
-package com.example.tobi.springtobi.ex_1_3.dao;
+package com.example.tobi.springtobi.ex_1_5.dao;
 
-import com.example.tobi.springtobi.ex_1_3.domain.User;
+import com.example.tobi.springtobi.ex_1_5.domain.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDao {
+public class MessegeDao {
 
-   private SimpleConnectionMaker simpleConnectionMaker;
+   // private SimpleConnectionMaker simpleConnectionMaker;
 
     private ConnectionMaker connectionMaker;
 
-    public UserDao(ConnectionMaker connectionMaker) {
+    public MessegeDao(ConnectionMaker connectionMaker) {
         //        simpleConnectionMaker = new SimpleConnectionMaker();
 //        connectionMaker = new DConnectionMaker(); // 구체클래스
         this.connectionMaker = connectionMaker;

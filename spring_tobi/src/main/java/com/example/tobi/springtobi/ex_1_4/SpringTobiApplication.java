@@ -1,8 +1,11 @@
-package com.example.tobi.springtobi;
+package com.example.tobi.springtobi.ex_1_4;
 
-import com.example.tobi.springtobi.ex_1_3.dao.DaoFactory;
-import com.example.tobi.springtobi.ex_1_3.dao.UserDao;
-import com.example.tobi.springtobi.ex_1_3.domain.User;
+import com.example.tobi.springtobi.ex_1_4.dao.DaoFactory;
+import com.example.tobi.springtobi.ex_1_4.dao.UserDao;
+import com.example.tobi.springtobi.ex_1_4.domain.User;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
@@ -13,12 +16,16 @@ public class SpringTobiApplication {
 	public static void main(String[] args) throws SQLException, ClassNotFoundException {
 		setCharacter();
 
-		UserDao dao = new DaoFactory().userDao();
+		ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
+
+
+
+		UserDao dao = context.getBean("userDao",UserDao.class);
 
 		User user = new User();
-		user.setId("tobi4");
-		user.setName("Tobi");
-		user.setPassword("1234");
+		user.setId("tobi6");
+		user.setName("Tobi6");
+		user.setPassword("123432");
 
 		dao.add(user);
 

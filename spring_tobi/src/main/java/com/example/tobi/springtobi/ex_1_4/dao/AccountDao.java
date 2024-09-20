@@ -1,20 +1,19 @@
-package com.example.tobi.springtobi.ex_1_3.dao;
+package com.example.tobi.springtobi.ex_1_4.dao;
 
-import com.example.tobi.springtobi.ex_1_3.domain.User;
+import com.example.tobi.springtobi.ex_1_4.domain.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UserDao {
+public class AccountDao {
 
-   private SimpleConnectionMaker simpleConnectionMaker;
-
+    //    private SimpleConnectionMaker simpleConnectionMaker;
     private ConnectionMaker connectionMaker;
 
-    public UserDao(ConnectionMaker connectionMaker) {
-        //        simpleConnectionMaker = new SimpleConnectionMaker();
+    public AccountDao(ConnectionMaker connectionMaker) {
+//        simpleConnectionMaker = new SimpleConnectionMaker();
 //        connectionMaker = new DConnectionMaker(); // 구체클래스
         this.connectionMaker = connectionMaker;
     }
@@ -33,7 +32,7 @@ public class UserDao {
         conn.close();
     }
 
-    public User get(String id) throws SQLException, ClassNotFoundException {
+    public User get(String id) throws ClassNotFoundException, SQLException {
 
         Connection conn = connectionMaker.makeNewConnection();
         PreparedStatement ps = conn.prepareStatement("SELECT * FROM user WHERE id = ?");
