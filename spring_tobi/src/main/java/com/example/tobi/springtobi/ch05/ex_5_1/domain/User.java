@@ -70,9 +70,14 @@ public class User {
 
     public void upgradeLevel() {
         Level nextedLevel = this.level.nextLevel();
+<<<<<<< HEAD
         if (nextedLevel != null) {
             throw new IllegalStateException(this.level + "은 업그레이드 불가");
 
+=======
+        if (nextedLevel == null) {
+            throw new IllegalStateException(this.level + "은 업그레이드가 불가능합니다.");
+>>>>>>> f1422ac4b906504c4f73581eb1f6d2d8c51618d9
         } else {
             this.level = nextedLevel;
         }

@@ -11,9 +11,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+<<<<<<< HEAD
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
+=======
+
+>>>>>>> f1422ac4b906504c4f73581eb1f6d2d8c51618d9
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,11 +29,14 @@ class UserServiceTest {
     private UserDao userDao;
     @Autowired
     private UserService userService;
+<<<<<<< HEAD
     @Autowired
     private DataSource dataSource;
     @Autowired
     private PlatformTransactionManager transactionManager;
 
+=======
+>>>>>>> f1422ac4b906504c4f73581eb1f6d2d8c51618d9
     List<User> users;
 
     @BeforeEach
@@ -63,6 +70,7 @@ class UserServiceTest {
 
     }
 
+<<<<<<< HEAD
     @Test
     void upgradeAllOrNothing() {
         UserService testUserService = new UserService.TestUserService(users.get(3).getId());
@@ -136,6 +144,8 @@ class UserServiceTest {
     }
 
 
+=======
+>>>>>>> f1422ac4b906504c4f73581eb1f6d2d8c51618d9
     private void checkLevel(User user, Level expectedLevel) {
         User userUpdate = userDao.get(user.getId());
         Assertions.assertThat(userUpdate.getLevel()).isEqualTo(expectedLevel);

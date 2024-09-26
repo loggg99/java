@@ -3,7 +3,11 @@ package com.example.tobi.springtobi.ch05.ex_5_1.domain;
 public enum Level {
     GOLD(3, null),
     SILVER(2, GOLD),
+<<<<<<< HEAD
     BASIC(1,SILVER),  ;
+=======
+    BASIC(1, SILVER);
+>>>>>>> f1422ac4b906504c4f73581eb1f6d2d8c51618d9
 
     private final int value;
     private final Level level;

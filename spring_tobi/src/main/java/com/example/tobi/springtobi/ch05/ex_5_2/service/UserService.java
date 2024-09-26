@@ -3,6 +3,7 @@ package com.example.tobi.springtobi.ch05.ex_5_2.service;
 import com.example.tobi.springtobi.ch05.ex_5_2.dao.UserDao;
 import com.example.tobi.springtobi.ch05.ex_5_2.domain.Level;
 import com.example.tobi.springtobi.ch05.ex_5_2.domain.User;
+<<<<<<< HEAD
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -13,10 +14,14 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+=======
+
+>>>>>>> f1422ac4b906504c4f73581eb1f6d2d8c51618d9
 import java.util.List;
 
 public class UserService {
 
+<<<<<<< HEAD
     public static final int MIN_LOGCOUNT_FOR_SILVER = 50;
     public static final int MIN_RECCOMMEND_FOR_GOLD = 30;
 
@@ -31,10 +36,15 @@ public class UserService {
 
     public UserService(String id) {}
 
+=======
+    private UserDao userDao;
+
+>>>>>>> f1422ac4b906504c4f73581eb1f6d2d8c51618d9
     public UserService(UserDao userDao) {
         this.userDao = userDao;
     }
 
+<<<<<<< HEAD
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
@@ -43,6 +53,8 @@ public class UserService {
         this.dataSource = dataSource;
     }
 
+=======
+>>>>>>> f1422ac4b906504c4f73581eb1f6d2d8c51618d9
     public void add(User user) {
         if (user.getLevel() == null) {
             user.setLevel(Level.BASIC);
@@ -54,6 +66,7 @@ public class UserService {
         List<User> users = userDao.getAll();
 
         for (User user : users) {
+<<<<<<< HEAD
             if ( canUpgradeLevel(user) ) {
                 // upgrade
                 upgradeLevel(user);
@@ -171,5 +184,37 @@ public class UserService {
     }
 
     static class TestUserServiceException extends RuntimeException {}
+=======
+            Boolean changed = null;
+
+            if (
+                    user.getLevel() == Level.BASIC &&
+                            user.getLogin() >= 50
+            ) {
+                user.setLevel(Level.SILVER);
+                changed = true;
+            }
+            else if (
+                    user.getLevel() == Level.SILVER &&
+                            user.getRecommend() >= 30
+            ) {
+                user.setLevel(Level.GOLD);
+                changed = true;
+            }
+            else if ( user.getLevel() == Level.GOLD ) {
+                changed = false;
+            }
+            else {
+                changed = false;
+            }
+
+            if (changed) {
+                userDao.update(user);
+            }
+
+        }
+
+    }
+>>>>>>> f1422ac4b906504c4f73581eb1f6d2d8c51618d9
 
 }

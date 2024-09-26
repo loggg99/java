@@ -1,7 +1,10 @@
 package com.example.tobi.springtobi.ch05.ex_5_1.dao;
 
+<<<<<<< HEAD
 import com.example.tobi.springtobi.ch03.ex_3_5.dao.JdbcContext;
 import com.example.tobi.springtobi.ch05.ex_5_1.service.UserService_v1;
+=======
+>>>>>>> f1422ac4b906504c4f73581eb1f6d2d8c51618d9
 import com.example.tobi.springtobi.ch05.ex_5_1.service.UserService_v2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +18,10 @@ public class DaoFactory {
     @Bean
     public UserDao userDao() {
         return new UserDaoJdbc(dataSource());
+<<<<<<< HEAD
 //        return new UserDao(dataSource(), jdbcContext());
+=======
+>>>>>>> f1422ac4b906504c4f73581eb1f6d2d8c51618d9
     }
 
     @Bean
@@ -23,7 +29,10 @@ public class DaoFactory {
         return new UserService_v2(userDao());
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> f1422ac4b906504c4f73581eb1f6d2d8c51618d9
     @Bean
     public DataSource dataSource() {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
