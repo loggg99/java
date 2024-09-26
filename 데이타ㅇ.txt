@@ -1,0 +1,25 @@
+SHOW DATABASES;
+
+CREATE DATABASE spring_tobi
+    CHARACTER SET utf8mb4
+    COLLATE utf8mb4_unicode_ci;
+
+USE spring_tobi;
+
+CREATE TABLE User (
+                       Id VARCHAR(50) NOT NULL UNIQUE,
+                       password VARCHAR(50) NOT NULL,
+                       name VARCHAR(50) NOT NULL,
+                       Level TINYINT NOT NULL,
+                       login INT NOT NULL,
+                       Recommend INT NOT NULL
+);
+
+desc user;
+
+show tables;
+
+select * from user;
+
+
+DROP database spring_tobi;

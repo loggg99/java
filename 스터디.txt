@@ -1,0 +1,4 @@
+-url요청 방식
+GET, POST, PUT, DELETE
+-MVC패턴?
+-템플릿엔진?
