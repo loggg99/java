@@ -1,0 +1,3 @@
+Usermapper.xml에 추가 -> interface UserMapper에 추가
+-> UserService에 추가 -> UserController에 추가
+-> user-update(FrontHand에 추가)
