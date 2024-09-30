@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>공지사항 목록</title>
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body, ul, li{
+            margin:0;
+            list-style:none;
+            padding:0;
+        }
+        a{
+            text-decoration:none;
+            color:inherit;
+        }
+
+        #con {
+            width: 800px;
+            height: 100%;
+            background-color: red;
+            margin:0 auto;
+        }
+
+        #header {
+            width: 100%;
+            height: 80px;
+            background-color: green;
+        }
+
+        #body {
+            width: 100%;
+            height: calc(100% - 80px - 150px);
+            background-color: yellow;
+        }
+
+        #footer {
+            width: 100%;
+            height: 150px;
+            background-color: skyblue;
+        }
+    </style>
+
+</head>
+<body>
+<h1>공지사항 목록</h1>
+<a href="/users/signup">회원가입</a> |
+<a href="/users/login">로그인</a> |
+<a href="/notices/new">글 작성</a>
+
+<form action="/notices/search" method="get">
+    <input type="text" name="keyword" placeholder="검색어 입력">
+    <button type="submit">검색</button>
+</form>
+
+<table>
+    <tr>
+        <th>No</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>날짜</th>
+        <th>관리</th>
+    </tr>
+    <tr th:each="notice : ${notices}">
+        <td th:text="${notice.id}"></td>
+        <td><a th:href="@{/notices/{id}(id=${notice.id})}" th:text="${notice.title}"></a></td>
+        <td th:text="${notice.author}"></td>
+        <td th:text="${notice.date}"></td>
+        <td>
+            <a th:href="@{/notices/{id}/edit(id=${notice.id})}">수정</a>
+            <form th:action="@{/notices/{id}/delete(id=${notice.id})}" method="post" th:object="${notice}">
+                <button type="submit">삭제</button>
+            </form>
+        </td>
+    </tr>
+</table>
+<div id='con'>
+
+    <div id='header'>
+
+    </div>
+    <div id='body'>
+
+    </div>
+    <div id='footer'>
+
+    </div>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+</body>
+</html>

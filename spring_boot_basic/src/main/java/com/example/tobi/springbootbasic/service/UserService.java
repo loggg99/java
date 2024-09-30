@@ -40,14 +40,16 @@ public class UserService {
         userMapper.insertUser(user);
     }
 
-    public boolean deleteUser(Long id, String password) {
-        User user = userMapper.findById(id);
-
-        if (user != null && user.getPassword().equals(password)) {
-            userMapper.deleteById(id);
-            return true;
-
-        }
-        return false;
+    public void updateUser(User user) {
+        userMapper.updateUser(user);
     }
+
+    public void deleteUser(User user) {
+        userMapper.deleteUser(user);
+
+
+    }
+
+
+
 }

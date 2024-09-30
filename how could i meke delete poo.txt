@@ -1,67 +1,15 @@
-회원 삭제 시, 삭제 요청을 위해 ID와 패스워드를 입력받아야 하는 요구 사항에 맞춰 코드를 수정해 보겠습니다. 사용자가 삭제 요청을 할 때 **ID**와 **비밀번호**를 입력받아 인증 후 삭제를 진행하는 방식으로 변경합니다.
+회원 삭제 기능을 구현하기 위해, 아래의 흐름을 따를 수 있습니다:
 
-### 1. **MyBatis Mapper** (삭제 쿼리는 동일)
-```xml
-<delete id="deleteUser" parameterType="long">
-    DELETE FROM user WHERE id = #{id};
-</delete>
-```
+1. **회원 삭제 버튼 클릭 시**: 회원 삭제 버튼을 클릭하면 `user-delete.html`로 이동하여 ID와 비밀번호를 입력할 수 있는 폼이 나타납니다.
+2. **폼 제출 시**: ID와 비밀번호를 입력한 후 "삭제" 버튼을 누르면, 서버로 DELETE 요청이 전송됩니다.
+3. **서버 측에서 검증 및 삭제**: 서버는 ID와 비밀번호를 확인한 후, 맞으면 회원을 삭제하고, 틀리면 오류 메시지를 반환합니다.
 
-### 2. **UserService 수정** (ID와 패스워드 확인 후 삭제)
-```java
-package com.example.tobi.springbootbasic.service;
-
-import com.example.tobi.springbootbasic.dto.MemberResponseDTO;
-import com.example.tobi.springbootbasic.mapper.UserMapper;
-import com.example.tobi.springbootbasic.model.User;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-@Service
-@RequiredArgsConstructor
-public class UserService {
-
-    private final UserMapper userMapper;
-    private final BCryptPasswordEncoder passwordEncoder;
-
-    public List<MemberResponseDTO> findAll() {
-        List<User> users = userMapper.findAll();
-        return users.stream()
-                .map(User::toMemberResponseDTO)
-                .collect(Collectors.toList());
-    }
-
-    public MemberResponseDTO findById(Long id) {
-        return userMapper.findById(id)
-                .toMemberResponseDTO();
-    }
-
-    public void createUser(User user) {
-        // 비밀번호 암호화 저장
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userMapper.insertUser(user);
-    }
-
-    // 회원 삭제 서비스 (ID와 비밀번호 확인 후 삭제)
-    public boolean deleteUser(Long id, String password) {
-        User user = userMapper.findById(id);
-        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
-            userMapper.deleteUser(id);
-            return true; // 삭제 성공
-        }
-        return false; // 삭제 실패 (비밀번호 불일치 또는 사용자 없음)
-    }
-}
-```
-
-### 3. **UserController 수정** (회원 삭제 시 ID와 비밀번호 확인)
+### 1. **UserController 수정**
+ID와 비밀번호 입력을 위한 삭제 폼과 회원 삭제 처리 로직을 구현합니다.
 ```java
 package com.example.tobi.springbootbasic.controller;
 
+import com.example.tobi.springbootbasic.dto.MemberResponseDTO;
 import com.example.tobi.springbootbasic.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -84,122 +32,61 @@ public class UserController {
         return "user-list";
     }
 
-    @GetMapping("/register")
-    public String registerForm() {
-        return "sign-up";
+    @GetMapping("/delete/{id}")
+    public String deleteForm(@PathVariable Long id, Model model) {
+        model.addAttribute("id", id);  // 삭제할 사용자의 ID 전달
+        return "user-delete";  // 회원 삭제 페이지로 이동
     }
 
-    @GetMapping("/update/{id}")
-    public String updateForm(@PathVariable Long id, Model model) {
-        MemberResponseDTO user = userService.findById(id);
-        model.addAttribute("user", user);
-        return "user-update";
-    }
-
-    @PostMapping("/register")
-    public String createUser(@RequestBody MemberCreateRequestDTO request) {
-        userService.createUser(request.toUser());
-        return "redirect:/users";
-    }
-
-    // 회원 삭제 메소드 (ID와 비밀번호를 요청 파라미터로 받음)
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable Long id, @RequestParam String password, Model model) {
         boolean isDeleted = userService.deleteUser(id, password);
         if (isDeleted) {
-            return "redirect:/users";
+            return "redirect:/users";  // 삭제 성공 시, 사용자 목록 페이지로 리디렉션
         } else {
             model.addAttribute("error", "비밀번호가 일치하지 않거나 사용자 정보를 찾을 수 없습니다.");
-            return "user-list"; // 오류 메시지 표시
+            return "user-delete";  // 삭제 실패 시, 오류 메시지를 표시하며 같은 페이지로 리턴
         }
     }
 }
 ```
 
-### 4. **HTML 및 JavaScript 수정** (ID와 비밀번호 입력폼 추가)
+### 2. **user-delete.html** (회원 삭제 입력 폼)
+ID와 비밀번호를 입력받아 삭제 요청을 처리하는 HTML 파일을 생성합니다.
 ```html
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>User Management</title>
+    <title>회원 삭제</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container mt-5">
-    <h2 class="mb-4">회원 목록</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>이름</th>
-                <th>이메일</th>
-                <th>아이디</th>
-                <th>수정</th>
-                <th>삭제</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="user : ${users}">
-                <td th:text="${user.id}"></td>
-                <td th:text="${user.name}"></td>
-                <td th:text="${user.email}"></td>
-                <td th:text="${user.userid}"></td>
-                <td>
-                    <a th:href="@{/users/update/{id}(id=${user.id})}" class="btn btn-primary">수정</a>
-                </td>
-                <td>
-                    <button class="btn btn-danger" onclick="openDeleteModal([[${user.id}]])">삭제</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<!-- 회원 삭제 확인 모달 -->
-<div class="modal" id="deleteModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">회원 삭제</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="deleteForm">
-          <input type="hidden" id="deleteUserId">
-          <div class="form-group">
+    <h2>회원 삭제</h2>
+    <form id="deleteForm">
+        <div class="form-group">
             <label for="password">비밀번호를 입력하세요</label>
-            <input type="password" id="password" class="form-control" required>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-        <button type="button" class="btn btn-danger" onclick="confirmDelete()">삭제</button>
-      </div>
-    </div>
-  </div>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <button type="button" class="btn btn-danger" onclick="submitDeleteForm()">삭제</button>
+    </form>
+
+    <!-- 오류 메시지 표시 -->
+    <div th:if="${error}" class="alert alert-danger mt-3" th:text="${error}"></div>
 </div>
 
-<!-- JavaScript 삭제 요청 -->
 <script>
-    function openDeleteModal(id) {
-        document.getElementById('deleteUserId').value = id;
-        $('#deleteModal').modal('show');
-    }
-
-    function confirmDelete() {
-        const id = document.getElementById('deleteUserId').value;
+    function submitDeleteForm() {
+        const id = [[${id}]];  // 삭제할 사용자의 ID
         const password = document.getElementById('password').value;
 
         fetch(`/users/${id}?password=${password}`, {
-            method: 'DELETE'
+            method: 'DELETE',
         })
         .then(response => {
             if (response.ok) {
                 alert('사용자가 삭제되었습니다.');
-                window.location.reload();
+                window.location.href = '/users';
             } else {
                 alert('비밀번호가 일치하지 않거나 사용자 정보를 찾을 수 없습니다.');
             }
@@ -218,9 +105,59 @@ public class UserController {
 </html>
 ```
 
-### 변경 사항 요약:
-1. **삭제 요청 시 ID와 비밀번호 확인**: `UserService`에서 삭제 전에 사용자의 비밀번호를 확인하도록 변경했습니다.
-2. **HTML 폼 추가**: 삭제할 때 비밀번호 입력을 요구하는 모달 창을 추가했습니다.
-3. **JavaScript**: 사용자가 삭제 버튼을 누르면, 비밀번호를 입력받아 서버에 함께 전송하여 검증 후 삭제 요청을 처리합니다.
+### 3. **UserService 수정** (회원 삭제 로직)
+ID와 비밀번호를 확인하여 회원 삭제 여부를 처리합니다.
+```java
+package com.example.tobi.springbootbasic.service;
 
-이제 사용자가 ID와 비밀번호를 입력해야만 삭제가 가능하도록 구현되었습니다.
+import com.example.tobi.springbootbasic.mapper.UserMapper;
+import com.example.tobi.springbootbasic.model.User;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+@Service
+@RequiredArgsConstructor
+public class UserService {
+
+    private final UserMapper userMapper;
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    public boolean deleteUser(Long id, String password) {
+        User user = userMapper.findById(id);
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            userMapper.deleteById(id);
+            return true;
+        }
+        return false;  // 비밀번호가 일치하지 않거나 사용자 없음
+    }
+}
+
+================================================```
+@DeleteMapping("/{id}")
+public ResponseEntity<String> deleteUser(
+	@PathVariable Long id, @RequestParam String password) {
+    boolean isDeleted = userService.deleteUser(id, password);
+    if (isDeleted) {
+        return ResponseEntity.ok("Deleted");
+    } else {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid password");
+    }
+}
+ 
+============================================================
+### 4. **MyBatis Mapper 수정**
+MyBatis 쿼리는 그대로 사용합니다.
+```xml
+<delete id="deleteUser" parameterType="long">
+    DELETE FROM user WHERE id = #{id};
+</delete>
+```
+
+### 5. **user-list.html 수정** (삭제 버튼 추가)
+회원 목록에서 삭제 버튼을 클릭하면 회원 삭제 페이지로 이동하도록 링크를 추가합니다.
+```html
+<a th:href="@{/users/delete/{id}(id=${user.id})}" class="btn btn-danger btn-sm">삭제</a>
+```
+
+이 코드를 적용하면, **회원 목록**에서 삭제 버튼을 누르면 **회원 삭제 페이지로 이동**하고, **비밀번호 입력** 후 확인하면 서버로 DELETE 요청이 전송되어, 비밀번호가 일치할 경우 회원이 삭제됩니다.
