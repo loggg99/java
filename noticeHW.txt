@@ -1,321 +1,561 @@
-초심자가 이해할 수 있도록 간단하고 명료하게 구성된 공지사항 게시판 코드를 작성해보겠습니다. 아래 코드는 요구 사항을 반영하여 회원가입, 로그인 기능과 공지사항 CRUD (생성, 조회, 수정, 삭제) 기능을 포함하고 있습니다.
+아래는 주어진 요구 사항을 만족하는 공지사항 시스템의 전체 코드를 초심자도 
+쉽게 이해할 수 있도록 작성했습니다. 기본적인 CRUD 기능과 로그인 및 회원가입 
+기능이 포함되어 있습니다.
 
-### 1. DTO (Data Transfer Object)
+### 1. **Controller (UserController.java & NoticeController.java)**
 
+#### UserController.java
+사용자 회원가입, 로그인 기능을 처리하는 컨트롤러입니다.
 ```java
-// NoticeDTO.java
+package com.example.tobi.notice.controller;
+
+import com.example.tobi.notice.dto.UserDTO;
+import com.example.tobi.notice.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequiredArgsConstructor
+@RequestMapping("/users")
+public class UserController {
+
+    private final UserService userService;
+
+    // 회원가입 페이지
+    @GetMapping("/register")
+    public String registerForm() {
+        return "sign-up";
+    }
+
+    // 회원가입 처리
+    @PostMapping("/register")
+    public String register(UserDTO userDTO) {
+        userService.registerUser(userDTO);
+        return "redirect:/users/login";
+    }
+
+    // 로그인 페이지
+    @GetMapping("/login")
+    public String loginForm() {
+        return "login";
+    }
+
+    // 로그인 처리
+    @PostMapping("/login")
+    public String login(UserDTO userDTO, Model model) {
+        boolean isLoginSuccessful = userService.login(userDTO);
+        if (isLoginSuccessful) {
+            return "redirect:/notices";
+        } else {
+            model.addAttribute("error", "Invalid credentials");
+            return "login";
+        }
+    }
+}
+```
+
+#### NoticeController.java
+공지사항 목록, 글 작성, 수정, 삭제를 처리하는 컨트롤러입니다.
+```java
+package com.example.tobi.notice.controller;
+
+import com.example.tobi.notice.dto.NoticeDTO;
+import com.example.tobi.notice.service.NoticeService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+@RequiredArgsConstructor
+@RequestMapping("/notices")
+public class NoticeController {
+
+    private final NoticeService noticeService;
+
+    // 공지사항 목록 페이지
+    @GetMapping
+    public String listNotices(@RequestParam(required = false) 
+	String keyword, Model model) {
+        if (keyword != null) {
+            model.addAttribute("notices", noticeService.searchNotices(keyword));
+        } else {
+            model.addAttribute("notices", noticeService.getAllNotices());
+        }
+        return "notice-list";
+    }
+
+    // 글 작성 페이지
+    @GetMapping("/new")
+    public String createForm() {
+        return "notice-create";
+    }
+
+    // 글 작성 처리
+    @PostMapping("/new")
+    public String createNotice(NoticeDTO noticeDTO) {
+        noticeService.createNotice(noticeDTO);
+        return "redirect:/notices";
+    }
+
+    // 글 상세보기 페이지
+    @GetMapping("/{id}")
+    public String viewNotice(@PathVariable Long id, Model model) {
+        model.addAttribute("notice", noticeService.getNoticeById(id));
+        return "notice-detail";
+    }
+
+    // 글 수정 페이지
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable Long id, Model model) {
+        model.addAttribute("notice", noticeService.getNoticeById(id));
+        return "notice-edit";
+    }
+
+    // 글 수정 처리
+    @PostMapping("/{id}/edit")
+    public String editNotice(@PathVariable Long id, NoticeDTO noticeDTO) {
+        noticeService.updateNotice(id, noticeDTO);
+        return "redirect:/notices";
+    }
+
+    // 글 삭제 처리
+    @PostMapping("/{id}/delete")
+    public String deleteNotice(@PathVariable Long id) {
+        noticeService.deleteNotice(id);
+        return "redirect:/notices";
+    }
+}
+```
+
+### 2. **DTO (NoticeDTO.java & UserDTO.java)**
+
+#### NoticeDTO.java
+```java
+package com.example.tobi.notice.dto;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class NoticeDTO {
     private Long id;
     private String title;
     private String content;
     private String author;
     private String date;
-
-    // Getters and Setters
 }
+```
 
-// UserDTO.java
+#### UserDTO.java
+```java
+package com.example.tobi.notice.dto;
+
+import com.example.tobi.notice.model.User;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class UserDTO {
     private Long id;
-    private String username;
-    private String password;
+    private String name;
     private String email;
+    private String phone;
+    private String password;
 
-    // Getters and Setters
+    public User toUser() {
+        return User.builder()
+                .id(id)
+                .name(name)
+                .email(email)
+                .phone(phone)
+                .password(password)
+                .build();
+    }
 }
 ```
 
-### 2. MyBatis Mapper (인터페이스)
+### 3. **Service (NoticeService.java & UserService.java)**
 
-#### 공지사항 Mapper
-
+#### NoticeService.java
 ```java
-// NoticeMapper.java
-@Mapper
-public interface NoticeMapper {
+package com.example.tobi.notice.service;
 
-    List<NoticeDTO> getAllNotices();              // 공지 목록 조회
-    NoticeDTO getNoticeById(Long id);             // 공지 상세 조회
-    void insertNotice(NoticeDTO notice);          // 공지 작성
-    void updateNotice(NoticeDTO notice);          // 공지 수정
-    void deleteNotice(Long id);                   // 공지 삭제
-    List<NoticeDTO> searchNotices(String keyword); // 공지 검색
-}
-```
+import com.example.tobi.notice.dto.NoticeDTO;
+import com.example.tobi.notice.mapper.NoticeMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
-#### 유저 Mapper
+import java.util.List;
 
-```java
-// UserMapper.java
-@Mapper
-public interface UserMapper {
-
-    void registerUser(UserDTO user);               // 회원가입
-    UserDTO findByUsername(String username);       // 유저 조회
-}
-```
-
-### 3. Mapper XML 파일
-
-#### NoticeMapper.xml
-
-```xml
-<!-- NoticeMapper.xml -->
-<mapper namespace="com.example.mapper.NoticeMapper">
-    <select id="getAllNotices" resultType="NoticeDTO">
-        SELECT * FROM notice
-    </select>
-
-    <select id="getNoticeById" parameterType="long" resultType="NoticeDTO">
-        SELECT * FROM notice WHERE id = #{id}
-    </select>
-
-    <insert id="insertNotice" parameterType="NoticeDTO">
-        INSERT INTO notice (title, content, author, date) 
-        VALUES (#{title}, #{content}, #{author}, NOW())
-    </insert>
-
-    <update id="updateNotice" parameterType="NoticeDTO">
-        UPDATE notice SET title = #{title}, content = #{content} WHERE id = #{id}
-    </update>
-
-    <delete id="deleteNotice" parameterType="long">
-        DELETE FROM notice WHERE id = #{id}
-    </delete>
-
-    <select id="searchNotices" parameterType="string" resultType="NoticeDTO">
-        SELECT * FROM notice WHERE title LIKE CONCAT('%', #{keyword}, '%')
-    </select>
-</mapper>
-```
-
-#### UserMapper.xml
-
-```xml
-<!-- UserMapper.xml -->
-<mapper namespace="com.example.mapper.UserMapper">
-    <insert id="registerUser" parameterType="UserDTO">
-        INSERT INTO user (username, password, email) 
-        VALUES (#{username}, #{password}, #{email})
-    </insert>
-
-    <select id="findByUsername" parameterType="string" resultType="UserDTO">
-        SELECT * FROM user WHERE username = #{username}
-    </select>
-</mapper>
-```
-
-### 4. 서비스 (Service)
-
-#### NoticeService
-
-```java
-// NoticeService.java
 @Service
+@RequiredArgsConstructor
 public class NoticeService {
 
     private final NoticeMapper noticeMapper;
 
-    public NoticeService(NoticeMapper noticeMapper) {
-        this.noticeMapper = noticeMapper;
-    }
-
     public List<NoticeDTO> getAllNotices() {
         return noticeMapper.getAllNotices();
+    }
+
+    public List<NoticeDTO> searchNotices(String keyword) {
+        return noticeMapper.searchNotices(keyword);
     }
 
     public NoticeDTO getNoticeById(Long id) {
         return noticeMapper.getNoticeById(id);
     }
 
-    public void insertNotice(NoticeDTO notice) {
-        noticeMapper.insertNotice(notice);
+    public void createNotice(NoticeDTO noticeDTO) {
+        noticeMapper.createNotice(noticeDTO);
     }
 
-    public void updateNotice(NoticeDTO notice) {
-        noticeMapper.updateNotice(notice);
+    public void updateNotice(Long id, NoticeDTO noticeDTO) {
+        noticeMapper.updateNotice(id, noticeDTO);
     }
 
     public void deleteNotice(Long id) {
         noticeMapper.deleteNotice(id);
     }
-
-    public List<NoticeDTO> searchNotices(String keyword) {
-        return noticeMapper.searchNotices(keyword);
-    }
 }
 ```
 
-#### UserService
-
+#### UserService.java
 ```java
-// UserService.java
+package com.example.tobi.notice.service;
+
+import com.example.tobi.notice.dto.UserDTO;
+import com.example.tobi.notice.mapper.UserMapper;
+import com.example.tobi.notice.model.User;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserMapper userMapper;
 
-    public UserService(UserMapper userMapper) {
-        this.userMapper = userMapper;
+    public void registerUser(UserDTO userDTO) {
+        userMapper.registerUser(userDTO.toUser());
     }
 
-    public void registerUser(UserDTO user) {
-        userMapper.registerUser(user);
-    }
-
-    public UserDTO login(String username, String password) {
-        UserDTO user = userMapper.findByUsername(username);
-        if (user != null && user.getPassword().equals(password)) {
-            return user;
-        }
-        return null;
+    public boolean login(UserDTO userDTO) {
+        User user = userMapper.findByEmail(userDTO.getEmail());
+        return user != null && user.getPassword().equals(userDTO.getPassword());
     }
 }
 ```
 
-### 5. 컨트롤러 (Controller)
+### 4. **Mapper (NoticeMapper.java & UserMapper.java)**
 
-#### NoticeController
-
+#### NoticeMapper.java
 ```java
-// NoticeController.java
-@RestController
-@RequestMapping("/notices")
-public class NoticeController {
+package com.example.tobi.notice.mapper;
 
-    private final NoticeService noticeService;
+import com.example.tobi.notice.dto.NoticeDTO;
+import org.apache.ibatis.annotations.Mapper;
 
-    public NoticeController(NoticeService noticeService) {
-        this.noticeService = noticeService;
-    }
+import java.util.List;
 
-    @GetMapping
-    public List<NoticeDTO> getAllNotices() {
-        return noticeService.getAllNotices();
-    }
+@Mapper
+public interface NoticeMapper {
+    List<NoticeDTO> getAllNotices();
 
-    @GetMapping("/{id}")
-    public NoticeDTO getNoticeById(@PathVariable Long id) {
-        return noticeService.getNoticeById(id);
-    }
+    List<NoticeDTO> searchNotices(String keyword);
 
-    @PostMapping
-    public String createNotice(@RequestBody NoticeDTO notice, HttpSession session) {
-        notice.setAuthor((String) session.getAttribute("username"));
-        noticeService.insertNotice(notice);
-        return "공지사항이 등록되었습니다.";
-    }
+    NoticeDTO getNoticeById(Long id);
 
-    @PutMapping("/{id}")
-    public String updateNotice(@PathVariable Long id, @RequestBody NoticeDTO notice, HttpSession session) {
-        notice.setId(id);
-        notice.setAuthor((String) session.getAttribute("username"));
-        noticeService.updateNotice(notice);
-        return "공지사항이 수정되었습니다.";
-    }
+    void createNotice(NoticeDTO noticeDTO);
 
-    @DeleteMapping("/{id}")
-    public String deleteNotice(@PathVariable Long id, HttpSession session) {
-        noticeService.deleteNotice(id);
-        return "공지사항이 삭제되었습니다.";
-    }
+    void updateNotice(Long id, NoticeDTO noticeDTO);
 
-    @GetMapping("/search")
-    public List<NoticeDTO> searchNotices(@RequestParam String keyword) {
-        return noticeService.searchNotices(keyword);
-    }
+    void deleteNotice(Long id);
 }
 ```
 
-#### UserController
-
+#### UserMapper.java
 ```java
-// UserController.java
-@RestController
-@RequestMapping("/users")
-public class UserController {
+package com.example.tobi.notice.mapper;
 
-    private final UserService userService;
+import com.example.tobi.notice.model.User;
+import org.apache.ibatis.annotations.Mapper;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+@Mapper
+public interface UserMapper {
 
-    @PostMapping("/signup")
-    public String signup(@RequestBody UserDTO user) {
-        userService.registerUser(user);
-        return "회원가입이 완료되었습니다.";
-    }
+    void registerUser(User user);
 
-    @PostMapping("/login")
-    public String login(@RequestBody UserDTO user, HttpSession session) {
-        UserDTO loginUser = userService.login(user.getUsername(), user.getPassword());
-        if (loginUser != null) {
-            session.setAttribute("username", loginUser.getUsername());
-            return "로그인 성공";
-        } else {
-            return "로그인 실패";
-        }
-    }
-
-    @PostMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "로그아웃되었습니다.";
-    }
+    User findByEmail(String email);
 }
 ```
 
-### 6. HTML (Thymeleaf 템플릿)
+### 5. **Model (User.java)**
 
-#### 공지사항 목록 페이지 (`list.html`)
+#### User.java
+```java
+package com.example.tobi.notice.model;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
+@Builder
+public class User {
+    private Long id;
+    private String name;
+    private String email;
+    private String phone;
+    private String password;
+}
+```
+
+### 6. **MyBatis XML Mapping (UserMapper.xml & NoticeMapper.xml)**
+
+#### UserMapper.xml
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.tobi.notice.mapper.UserMapper">
+
+===========================================================
+
+<insert id="registerUser" parameterType="com.example.tobi.notice.model.User">
+        INSERT INTO user(name, password, email, phone)
+        VALUES (#{name}, #{password}, #{email}, #{phone});
+    </insert>
+
+
+*id 추가*
+
+<insert id="registerUser" parameterType="com.example.tobi.notice.model.User">
+        INSERT INTO user(id, name, password, email, phone)
+        VALUES (#{id}, #{name}, #{password}, #{email}, #{phone});
+    </insert>
+
+
+============================================================
+
+    <select id="findByEmail" parameterType="string" resultType="com.example.tobi.notice.model.User">
+        SELECT * FROM user WHERE email = #{email};
+    </select>
+
+</mapper>
+```
+
+#### NoticeMapper.xml
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.tobi.notice.mapper.NoticeMapper">
+
+    <select id="getAllNotices" resultType="com.example.tobi.notice.dto.NoticeDTO">
+        SELECT * FROM notice;
+    </select>
+
+    <select id="searchNotices" parameterType="string" resultType="com.example.tobi.notice.dto.NoticeDTO">
+        SELECT * FROM notice WHERE title LIKE CONCAT('%', #{keyword}, '%');
+    </select>
+
+    <select id="getNoticeById" parameterType="long" resultType="com.example.tobi.notice.dto.NoticeDTO">
+        SELECT * FROM notice WHERE id = #{id};
+    </select>
+
+    <insert id="createNotice" parameterType="com.example.tobi.notice.dto.NoticeDTO">
+    INSERT INTO notice(title, content, author, date)
+    VALUES (#{title}, #{content}, #{author}, #{date});
+</insert>
+
+<update id="updateNotice" parameterType="com.example.tobi.notice.dto.NoticeDTO">
+    UPDATE notice
+    SET title = #{title}, content = #{content}
+    WHERE id = #{id};
+</update>
+
+<delete id="deleteNotice" parameterType="long">
+    DELETE FROM notice WHERE id = #{id};
+</delete>
+
+</mapper>
+```
+
+### 7. **HTML Templates (Using Thymeleaf)**
+
+#### 공지사항 목록 페이지 (notice-list.html)
 ```html
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>공지사항 목록</title>
+    <style>
+        /* 스타일 생략 */
+    </style>
 </head>
 <body>
-    <h1>공지사항 목록</h1>
-    <a href="/users/signup">회원가입</a> | 
-    <a href="/users/login">로그인</a> | 
-    <a href="/notices/new">글 작성</a>
-    
-    <form action="/notices/search" method="get">
-        <input type="text" name="keyword" placeholder="검색어 입력">
-        <button type="submit">검색</button>
-    </form>
 
-    <table>
-        <tr>
-            <th>No</th>
-            <th>제목</th>
-            <th>작성자</th>
-            <th>날짜</th>
-            <th>관리</th>
-        </tr>
-        <tr th:each="notice : ${notices}">
-            <td th:text="${notice.id}"></td>
-            <td><a th:href="@{/notices/{id}(id=${notice.id})}" th:text="${notice.title}"></a></td>
-            <td th:text="${notice.author}"></td>
-            <td th:text="${notice.date}"></td>
-            <td>
-                <a th:href="@{/notices/{id}/edit(id=${notice.id})}">수정</a>
-                <form th:action="@{/notices/{id}/delete(id=${notice.id})}" method="post" th:object="${notice}">
-                    <button type="submit">삭제</button>
-                </form>
-            </td>
-        </tr>
-    </table>
+<h1>공지사항 목록</h1>
+<a href="/users/register">회원가입</a> |
+<a href="/users/login">로그인</a> |
+<a href="/notices/new">글 작성</a>
+
+<form action="/notices" method="get">
+    <input type="text" name="keyword" placeholder="검색어 입력">
+    <button type="submit">검색</button>
+</form>
+
+<table>
+    <tr>
+        <th>No</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>날짜</th>
+        <th>관리</th>
+    </tr>
+    <tr th:each="notice : ${notices}">
+        <td th:text="${notice.id}"></td>
+        <td><a th:href="@{/notices/{id}(id=${notice.id})}" th:text="${notice.title}"></a></td>
+        <td th:text="${notice.author}"></td>
+        <td th:text="${notice.date}"></td>
+        <td>
+            <a th:href="@{/notices/{id}/edit(id=${notice.id})}">수정</a>
+            <form th:action="@{/notices/{id}/delete(id=${notice.id})}" method="post">
+                <button type="submit">삭제</button>
+            </form>
+        </td>
+    </tr>
+</table>
+
 </body>
 </html>
 ```
 
-### 요약
+#### 공지사항 작성 페이지 (notice-create.html)
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>공지사항 작성</title>
+</head>
+<body>
 
-이 코드는 공지사항 게시판의 기본적인 기능을 간단하게 구현한 예제입니다. 요구사항에 맞춰 유저 회원가입, 로그인 기능과 공지사항의 CRUD 기능을 포함하고 있습니다.
+<h1>공지사항 작성</h1>
+<form action="/notices/new" method="post">
+    <label for="title">제목</label>
+    <input type="text" id="title" name="title" required>
 
-1. **공지사항 목록 조회**: 사용자가 작성한 공지사항을 보여줍니다.
-2. **검색 기능**: 제목에 키워드가 포함된 공지사항을 검색할 수 있습니다.
-3. **회원가입과 로그인**: 유저 정보를 관리
+    <label for="content">내용</label>
+    <textarea id="content" name="content" required></textarea>
+
+    <button type="submit">작성</button>
+</form>
+
+</body>
+</html>
+```
+
+#### 회원가입 페이지 (sign-up.html)
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>회원가입</title>
+</head>
+<body>
+
+<h1>회원가입</h1>
+<form action="/users/register" method="post">
+ 
+=================================    
+  *추가*
+   <label for="id">아이디</label>
+    <input type="text" id="id" name="id" required>	
+==================================
+
+    <label for="name">이름</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">이메일</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="phone">전화번호</label>
+    <input type="text" id="phone" name="phone" required>
+
+    <label for="password">비밀번호</label>
+    <input type="password" id="password" name="password" required>
+
+    <button type="submit">회원가입</button>
+</form>
+
+</body>
+</html>
+```
+
+#### 로그인 페이지 (login.html)
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>로그인</title>
+</head>
+<body>
+
+<h1>로그인</h1>
+<form action="/users/login" method="post">
+    
+======================================================
+    <label for="email">이메일</label>
+    <input type="email" id="email" name="email" required>
+
+
+*수정*
+    <label for="id">아이디</label>
+  <input type="id" id="id" name="id" required>
+=======================================================
+    <label for="password">비밀번호</label>
+    <input type="password" id="password" name="password" required>
+
+    <button type="submit">로그인</button>
+</form>
+
+</body>
+</html>
+```
+
+### 8. **DB 테이블 구조**
+
+#### `user` 테이블
+```sql
+CREATE TABLE user (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    phone VARCHAR(20),
+    password VARCHAR(255) NOT NULL
+);
+```
+
+#### `notice` 테이블
+```sql
+CREATE TABLE notice (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### 마무리
+이 코드는 공지사항 작성, 수정, 삭제와 검색 기능을 포함하며, 사용자가 회원가입 및 로그인을 할 수 있는 시스템을 구성한 예제입니다. Thymeleaf를 사용하여 HTML 템플릿을 렌더링하고, MyBatis를 통해 데이터베이스와의 연동을 처리합니다.

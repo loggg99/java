@@ -13,9 +13,15 @@ public class UserService {
 
     private final UserMapper userMapper;
 
+    public boolean login(UserDTO userDTO) {
+        User user = userMapper.findByEmail(userDTO.getEmail());
+        return user != null && user.getPassword().equals(userDTO.getPassword());
+    }
+
 
 
     public void registerUser(UserDTO userDTO) {
         userMapper.registerUser(userDTO.toUser());
+
     }
 }

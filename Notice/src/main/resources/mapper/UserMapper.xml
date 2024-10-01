@@ -5,12 +5,12 @@
 <mapper namespace="com.example.tobi.notice.mapper.UserMapper">
 
     <insert id="registerUser" parameterType="com.example.tobi.notice.model.User">
-        INSERT INTO user(name, password, email, phone)
-        VALUES (#{name}, #{password}, #{email}, #{phone});
+        INSERT INTO user(id, name, email, phone, password )
+        VALUES (#{id}, #{name}, #{email}, #{phone}, #{password});
     </insert>
 
-    <select id="findById" parameterType="long" resultType="com.example.tobi.notice.model.User">
-        SELECT * FROM user WHERE id = #{id};
+    <select id="findByEmail" parameterType="long" resultType="com.example.tobi.notice.model.User">
+        SELECT * FROM user WHERE email = #{email};
     </select>
 
 </mapper>

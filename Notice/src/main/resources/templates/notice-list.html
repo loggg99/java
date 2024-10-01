@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>공지사항 목록</title>
+    <style>
+        /* 스타일 생략 */
+    </style>
+</head>
+<body>
+
+<h1>공지사항 목록</h1>
+<a href="/users/register">회원가입</a> |
+<a href="/users/login">로그인</a> |
+<a href="/notices/new">글 작성</a>
+
+<form action="/notices" method="get">
+    <input type="text" name="keyword" placeholder="검색어 입력">
+    <button type="submit">검색</button>
+</form>
+
+<table>
+    <tr>
+        <th>No</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>날짜</th>
+        <th>관리</th>
+    </tr>
+    <tr th:each="notice : ${notices}">
+        <td th:text="${notice.id}"></td>
+        <td><a th:href="@{/notices/{id}(id=${notice.id})}" th:text="${notice.title}"></a></td>
+        <td th:text="${notice.author}"></td>
+        <td th:text="${notice.date}"></td>
+        <td>
+            <a th:href="@{/notices/{id}/edit(id=${notice.id})}">수정</a>
+            <form th:action="@{/notices/{id}/delete(id=${notice.id})}" method="post">
+                <button type="submit">삭제</button>
+            </form>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

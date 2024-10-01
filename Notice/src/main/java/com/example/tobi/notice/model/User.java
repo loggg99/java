@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Getter
 @Builder
 public class User {
-    private Long id;
+    private String id;
     private String name;
     private String email;
     private String phone;
