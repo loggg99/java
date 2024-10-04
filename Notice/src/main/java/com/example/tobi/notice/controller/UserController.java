@@ -19,12 +19,12 @@ public class UserController {
 
 
     @GetMapping("/register")
-    public String resisterForm() {
+    public String registerForm() {
         return "sign-up";
     }
 
     @PostMapping("/register")
-    public String resister(UserDTO userDTO) {
+    public String register(UserDTO userDTO) {
         userService.registerUser(userDTO);
         return "redirect:/users/login";
 

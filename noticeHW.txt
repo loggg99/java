@@ -554,8 +554,60 @@ CREATE TABLE notice (
     content TEXT NOT NULL,
     author VARCHAR(255) NOT NULL,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+	created datetime default now
+	updated datetime default now
 );
 ```
+
+show tables;
+
+use java_basic;
+
+CREATE TABLE member (
+                      id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                      userid varchar(255),
+                      name VARCHAR(255) NOT NULL,
+                      password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE article (
+                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                        userid varchar(255),
+                        title VARCHAR(255) NOT NULL,
+                        content TEXT NOT NULL,
+                        created DATETIME DEFAULT CURRENT_TIMESTAMP,
+                        updated DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+
+);
+
+show tables;
+ drop table member;
+
+
+
+
+drop table article;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### 마무리
 이 코드는 공지사항 작성, 수정, 삭제와 검색 기능을 포함하며, 사용자가 회원가입 및 로그인을 할 수 있는 시스템을 구성한 예제입니다. Thymeleaf를 사용하여 HTML 템플릿을 렌더링하고, MyBatis를 통해 데이터베이스와의 연동을 처리합니다.

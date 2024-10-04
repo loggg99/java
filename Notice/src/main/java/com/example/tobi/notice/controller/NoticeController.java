@@ -17,7 +17,7 @@ public class NoticeController {
     private final UserService userService;
 
     @GetMapping
-    public String noticesList(@RequestParam
+    public String noticesList(
 
 
     ) {
@@ -25,6 +25,7 @@ public class NoticeController {
         return "notice-list";
 
     }
+
 
 
 

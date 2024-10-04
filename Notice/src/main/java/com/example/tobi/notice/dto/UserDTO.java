@@ -7,7 +7,6 @@ import lombok.ToString;
 
 @Getter
 @Setter
-
 public class UserDTO {
     private String id;
     private String name;
