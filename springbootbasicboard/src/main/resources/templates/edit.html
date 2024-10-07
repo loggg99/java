@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.7.1.js" crossorigin="anonymous"></script>
+  <script th:src="@{/js/boardEdit.js}"></script>
+  <link th:href="@{/css/boardEdit.css}" rel="stylesheet">
+  <title>게시글 수정하기</title>
+</head>
+<body>
+<div class="container">
+  <h1>게시글 수정하기</h1>
+
+  <form id="editForm">
+    <input id="hiddenId" name="id" type="hidden" th:value="${id}">
+    <input id="hiddenUserId" name="hiddenUserId" type="hidden" th:value="${userId}">
+    <input id="hiddenUserName" name="hiddenUserName" type="hidden" th:value="${userName}">
+
+    <div class="form-group">
+      <label for="title">제목</label>
+      <input type="text" id="title" name="title" required>
+    </div>
+
+    <div class="form-group">
+      <label for="content">내용</label>
+      <textarea id="content" name="content" rows="10" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="file">파일 업로드</label>
+      <input type="file" id="file" name="file">
+    </div>
+
+    <div class="uploaded-files">
+      <ul id="fileList"></ul> <!-- 파일 목록을 보여줄 부분 -->
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn" id="submitBtn">수정 완료</button>
+      <button type="button" class="btn cancel-btn" th:onclick="|location.href='@{/}'|">취소</button>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>
