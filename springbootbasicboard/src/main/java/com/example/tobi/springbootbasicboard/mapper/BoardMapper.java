@@ -10,8 +10,9 @@ import java.util.List;
 public interface BoardMapper {
     List<Board> selectBoardList(Paging page);
     int countBoards();
-    Board selectBoardDetail(String id);
+    Board selectBoardDetail(long id);
     void saveArticle(Board board);
-    void deleteBoardById(String id);
-    void updateArticle(Board board);
+    void deleteBoardById(long id);
+    void updateArticle(Board build);
+
 }
