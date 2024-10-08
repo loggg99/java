@@ -1,47 +1,41 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://code.jquery.com/jquery-3.7.1.js" crossorigin="anonymous"></script>
-  <script th:src="@{/js/boardEdit.js}"></script>
-  <link th:href="@{/css/boardEdit.css}" rel="stylesheet">
-  <title>게시글 수정하기</title>
+  <title>게시글 수정</title>
+  <link rel="stylesheet" href="/css/board-edit.css">
 </head>
 <body>
 <div class="container">
-  <h1>게시글 수정하기</h1>
-
-  <form id="editForm">
-    <input id="hiddenId" name="id" type="hidden" th:value="${id}">
-    <input id="hiddenUserId" name="hiddenUserId" type="hidden" th:value="${userId}">
-    <input id="hiddenUserName" name="hiddenUserName" type="hidden" th:value="${userName}">
+  <h1>게시글 수정</h1>
+  <form id="editForm" action="/api/board/update" method="post" enctype="multipart/form-data">
+    <!-- 게시글 ID를 숨긴 필드로 넘김 -->
+    <input type="hidden" name="id" value="${id}" />
 
     <div class="form-group">
       <label for="title">제목</label>
-      <input type="text" id="title" name="title" required>
+      <input type="text" id="title" name="title" value="${title}" required>
     </div>
 
     <div class="form-group">
       <label for="content">내용</label>
-      <textarea id="content" name="content" rows="10" required></textarea>
+      <textarea id="content" name="content" rows="10" required>${content}</textarea>
     </div>
 
     <div class="form-group">
-      <label for="file">파일 업로드</label>
+      <label for="file">첨부 파일</label>
       <input type="file" id="file" name="file">
-    </div>
-
-    <div class="uploaded-files">
-      <ul id="fileList"></ul> <!-- 파일 목록을 보여줄 부분 -->
+      <span class="current-file">현재 파일: ${fileName}</span>
     </div>
 
     <div class="form-actions">
-      <button type="button" class="btn" id="submitBtn">수정 완료</button>
-      <button type="button" class="btn cancel-btn" th:onclick="|location.href='@{/}'|">취소</button>
+      <button type="submit" id="update-btn">수정 완료</button>
+      <button type="button" id="cancel-btn">취소</button>
     </div>
   </form>
 </div>
 
+<script src="/js/board-edit.js"></script>
 </body>
 </html>

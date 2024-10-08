@@ -49,11 +49,10 @@
     <update id="updateArticle" parameterType="com.example.tobi.springbootbasicboard.model.Board">
         UPDATE article
         SET
-
             title = #{title},
             content = #{content},
-            file_path = #{filePath}
-        WHERE id = #{id};
+            file_path = CASE WHEN #{filePath} IS NOT NULL THEN #{filePath} ELSE file_path END
+        WHERE id = #{id} AND user_id = #{userId};
     </update>
 
 

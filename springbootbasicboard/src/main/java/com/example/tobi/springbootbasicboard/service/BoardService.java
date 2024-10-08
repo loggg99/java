@@ -1,7 +1,6 @@
 package com.example.tobi.springbootbasicboard.service;
 
 import com.example.tobi.springbootbasicboard.dto.BoardDeleteRequestDTO;
-import com.example.tobi.springbootbasicboard.dto.BoardDetailResponseDTO;
 import com.example.tobi.springbootbasicboard.mapper.BoardMapper;
 import com.example.tobi.springbootbasicboard.model.Board;
 import com.example.tobi.springbootbasicboard.model.Paging;
@@ -16,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardService {
 
-    private static BoardMapper boardMapper;
+    private final BoardMapper boardMapper;
     private final FileService fileService;
 
     public List<Board> getBoardList(int page, int size) {
@@ -33,7 +32,7 @@ public class BoardService {
         return boardMapper.countBoards(); // 총 게시글 수 반환
     }
 
-    public static BoardDetailResponseDTO getBoardDetail(String id) {
+    public Board getBoardDetail(long id) {
         return boardMapper.selectBoardDetail(id);
     }
 
@@ -59,40 +58,28 @@ public class BoardService {
         return fileService.downloadFile(fileName);
     }
 
-    public void deleteArticle(String id, BoardDeleteRequestDTO request) {
+    public void deleteArticle(long id, BoardDeleteRequestDTO request) {
         boardMapper.deleteBoardById(id);
         fileService.deleteFile(request.getFilePath());
     }
 
-    public void updateArticle(String id, String title, String content, MultipartFile file) {
+    public void updateArticle(long id, String title, String content, String userId, MultipartFile file) {
+        String filePath = null;
 
-        Board existingBoard = boardMapper.selectBoardDetail(id);
-        if (existingBoard == null) {
-            throw new RuntimeException("게시글을 찾을 수 없습니다.");
-        }
-
-
-        String path = existingBoard.getFilePath();
+        // 파일이 있으면 새 파일을 업로드하고 경로 저장
         if (file != null && !file.isEmpty()) {
-            path = fileService.fileUpload(file);
-            fileService.deleteFile(existingBoard.getFilePath());  // 기존 파일 삭제
+            filePath = fileService.fileUpload(file);
         }
 
+        // 수정할 게시글 정보를 업데이트
         boardMapper.updateArticle(
                 Board.builder()
                         .id(id)
                         .title(title)
                         .content(content)
-                        .filePath(path)
+                        .userId(userId)
+                        .filePath(filePath) // 파일 경로는 새로 업로드된 파일 경로 사용
                         .build()
         );
     }
-
-
-
-
-
-
-
-
 }

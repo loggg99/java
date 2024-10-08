@@ -1,7 +1,5 @@
 package com.example.tobi.springbootbasicboard.controller;
 
-import com.example.tobi.springbootbasicboard.dto.BoardDetailResponseDTO;
-import com.example.tobi.springbootbasicboard.service.BoardService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,17 +40,18 @@ public class BoardController {
         model.addAttribute("userId", userId);
     }
 
+    // 게시글 수정 화면 (추가)
     @GetMapping("/edit")
-    public String edit(@RequestParam("id") String id, Model model) {
-
-        BoardDetailResponseDTO boardDetail = BoardService.getBoardDetail(id);
-
-
+    public String edit(@RequestParam("id") Long id, HttpSession session, Model model) {
+        setSession(session, model);
         model.addAttribute("id", id);
+<<<<<<< HEAD
         model.addAttribute("title", boardDetail.getTitle());
         model.addAttribute("content", boardDetail.getContent());
         model.addAttribute("filePath", boardDetail.getFilePath());
 
+=======
+>>>>>>> b29413bce51767cd94f899dd65f1a712938d23c7
         return "board-edit";
     }
 
