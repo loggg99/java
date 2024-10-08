@@ -40,6 +40,7 @@ let fileChaged = () => {
         const file = e.target.files[0]; // 첫 번째 파일만 선택
 
         selectedFile = file; // 선택된 파일을 변수에 저장
+
         updateFileList(); // 파일 목록 업데이트
     });
 }

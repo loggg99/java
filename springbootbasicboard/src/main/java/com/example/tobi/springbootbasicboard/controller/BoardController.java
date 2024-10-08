@@ -53,7 +53,7 @@ public class BoardController {
         model.addAttribute("content", boardDetail.getContent());
         model.addAttribute("filePath", boardDetail.getFilePath());
 
-        return "board-edit";  // 수정 페이지 템플릿으로 연결
+        return "board-edit";
     }
 
 

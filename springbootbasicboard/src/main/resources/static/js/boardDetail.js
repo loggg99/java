@@ -4,6 +4,7 @@ $(document).ready(() => {
     loadBoardDetail();
 });
 
+
 let deleteArticle = () => {
 
     let resourceId = $('#hiddenId').val();

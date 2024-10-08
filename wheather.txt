@@ -1,0 +1,6 @@
+open file
+lombok
+
+
+key : kASQEznlUpHNFnsXoucR1xFy1Rej3ldegAFRXhHNsQgp1nCtnlRZKJLe+cquSnV/3fe8DvkQXGVsHt8RFtsWmA==
+url :  http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst

@@ -93,16 +93,19 @@ public class BoardApiController {
         return ResponseEntity.ok("게시글이 성공적으로 삭제되었습니다.");
     }
 
-    @PutMapping("/{id}")
+    @PutMapping
     public ResponseEntity<Void> updateArticle(
-            @PathVariable String id,
-            @RequestParam String title,
-            @RequestParam String content,
-            @RequestParam(required = false) MultipartFile file
+            @RequestParam("title") String title,
+            @RequestParam("hiddenId") Long id,
+            @RequestParam("content") String content,
+            @RequestParam("hiddenFileFlag") Boolean fileFlag,
+            @RequestParam("hiddenFilePath") String filePath,
+            @RequestPart("file") MultipartFile file
     ) {
-        boardService.updateArticle(id, title, content, file);
+        boardService.updateArticle(id, title, content, fileFlag, filePath, file);
         return ResponseEntity.ok().build();
     }
+
 
 
 
