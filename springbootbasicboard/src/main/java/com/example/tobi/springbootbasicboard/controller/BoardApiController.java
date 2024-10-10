@@ -69,6 +69,19 @@ public class BoardApiController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping
+    public ResponseEntity<Void> updateArticle(
+            @RequestParam("title") String title,
+            @RequestParam("hiddenId") Long id,
+            @RequestParam("content") String content,
+            @RequestParam("hiddenFileFlag") Boolean fileFlag,
+            @RequestParam("hiddenFilePath") String filePath,
+            @RequestPart("file") MultipartFile file
+    ) {
+        boardService.updateArticle(id, title, content, fileFlag, filePath, file);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/file/download/{fileName}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) throws UnsupportedEncodingException {
         Resource resource = boardService.downloadFile(fileName);
@@ -91,40 +104,4 @@ public class BoardApiController {
         boardService.deleteArticle(id, request);
         return ResponseEntity.ok("게시글이 성공적으로 삭제되었습니다.");
     }
-
-<<<<<<< HEAD
-    @PutMapping
-    public ResponseEntity<Void> updateArticle(
-            @RequestParam("title") String title,
-            @RequestParam("hiddenId") Long id,
-            @RequestParam("content") String content,
-            @RequestParam("hiddenFileFlag") Boolean fileFlag,
-            @RequestParam("hiddenFilePath") String filePath,
-            @RequestPart("file") MultipartFile file
-    ) {
-        boardService.updateArticle(id, title, content, fileFlag, filePath, file);
-        return ResponseEntity.ok().build();
-=======
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateArticle(
-            @PathVariable long id,
-            @RequestParam("title") String title,
-            @RequestParam("content") String content,
-            @RequestParam("hiddenUserId") String userId,
-            @RequestPart(value = "file", required = false) MultipartFile file
-    ) {
-        // 게시글 수정 요청 처리
-        boardService.updateArticle(id, title, content, userId, file);
-        return ResponseEntity.ok("게시글이 성공적으로 수정되었습니다.");
->>>>>>> b29413bce51767cd94f899dd65f1a712938d23c7
-    }
-
-
-
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> b29413bce51767cd94f899dd65f1a712938d23c7
 }

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/css/board.css}">
+  <title>날씨 게시판</title>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>날씨 게시판</h1>
+    <p class="greeting">사용자님, <span id="username">홍길동</span> 안녕하세요!</p>
+    <div class="auth-buttons">
+      <button onclick="location.href='/login'">로그인</button>
+      <button onclick="location.href='/register'">회원가입</button>
+    </div>
+  </header>
+
+  <main>
+    <h2>지역 선택</h2>
+    <div class="button-group">
+      <button class="location-btn" onclick="showWeather('서울')">서울</button>
+      <button class="location-btn" onclick="showWeather('부산')">부산</button>
+      <button class="location-btn" onclick="showWeather('대구')">대구</button>
+      <button class="location-btn" onclick="showWeather('광주')">광주</button>
+      <button class="location-btn" onclick="showWeather('대전')">대전</button>
+    </div>
+
+    <div class="weather-info" id="weather-info">
+      <!-- 날씨 정보가 여기에 표시됩니다. -->
+    </div>
+  </main>
+</div>
+
+
+</body>
+</html>

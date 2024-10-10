@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="03cf305c-682c-4225-aef0-17cf7fe40578" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../springboot feign client/src/main/java/com/example/tobi/springbootfeignclient/ExampleClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../springbootbasicboard/src/main/resources/static/js/boardUpdate.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../springbootbasicboard/src/main/resources/templates/board-update.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../springbootbasicboard/src/main/java/com/example/tobi/springbootbasicboard/controller/BoardApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../springbootbasicboard/src/main/java/com/example/tobi/springbootbasicboard/controller/BoardApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../springbootbasicboard/src/main/java/com/example/tobi/springbootbasicboard/controller/BoardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../springbootbasicboard/src/main/java/com/example/tobi/springbootbasicboard/controller/BoardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../springbootbasicboard/src/main/resources/static/js/boardDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/../springbootbasicboard/src/main/resources/static/js/boardDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../springbootbasicboard/src/main/resources/static/js/boardWrite.js" beforeDir="false" afterPath="$PROJECT_DIR$/../springbootbasicboard/src/main/resources/static/js/boardWrite.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../springbootbasicboard/src/main/resources/static/js/boardedit.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../springbootbasicboard/src/main/resources/templates/edit.html" beforeDir="false" />
-    </list>
+    <list default="true" id="03cf305c-682c-4225-aef0-17cf7fe40578" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -28,39 +18,39 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "loggg99"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;loggg99&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/loggg99/java.git",
-    "accountId": "241451eb-3f52-4734-b1ae-4154a82584f9"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/loggg99/java.git&quot;,
+    &quot;accountId&quot;: &quot;241451eb-3f52-4734-b1ae-4154a82584f9&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2n8S0sfFOatTH3MEgR2atPPRqsV" />
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -78,6 +68,7 @@
       <option name="presentableId" value="Default" />
       <updated>1728352990976</updated>
       <workItem from="1728352992054" duration="363000" />
+      <workItem from="1728519491441" duration="8000" />
     </task>
     <servers />
   </component>

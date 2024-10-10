@@ -1,0 +1,329 @@
+알겠습니다! 회원가입뿐만 아니라 로그인 기능도 함께 추가하겠습니다. 로그인 기능은 세션을 통해 인증 상태를 관리할 수 있도록 설정하겠습니다.
+
+### 주요 변경 사항
+1. **로그인 컨트롤러**를 추가해 로그인 폼과 로그인을 처리.
+2. **로그인 관련 서비스 메서드**를 추가.
+3. **DTO**로 로그인 요청을 처리.
+4. **MyBatis** XML에 로그인 쿼리를 추가.
+
+## 1. **컨트롤러**
+
+### `AccountApiController.java` (회원가입 및 로그인 API)
+```java
+package com.example.spring.weathernotice.controller;
+
+import com.example.spring.weathernotice.dto.LoginDTO;
+import com.example.spring.weathernotice.dto.RegisterDTO;
+import com.example.spring.weathernotice.model.Account;
+import com.example.spring.weathernotice.service.AccountService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
+
+@RestController
+@RequiredArgsConstructor
+public class AccountApiController {
+
+    private final AccountService accountService;
+
+    @PostMapping("/api/register")
+    public String registerUser(@RequestBody RegisterDTO registerDTO) {
+        Account account = Account.builder()
+            .userId(registerDTO.getUserId())
+            .password(registerDTO.getPassword())
+            .userName(registerDTO.getUserName())
+            .build();
+        
+        accountService.register(account);
+        return "회원가입 성공";
+    }
+
+    @PostMapping("/api/login")
+    public String loginUser(@RequestBody LoginDTO loginDTO, HttpSession session) {
+        Account account = accountService.login(loginDTO);
+        
+        if (account != null) {
+            session.setAttribute("user", account);
+            return "로그인 성공";
+        } else {
+            return "로그인 실패";
+        }
+    }
+
+    @PostMapping("/api/logout")
+    public String logoutUser(HttpSession session) {
+        session.invalidate();
+        return "로그아웃 성공";
+    }
+}
+```
+
+### `AccountController.java` (회원가입 및 로그인 폼 렌더링)
+```java
+package com.example.spring.weathernotice.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class AccountController {
+
+    @GetMapping("/register")
+    public String registerForm() {
+        return "register";
+    }
+
+    @GetMapping("/login")
+    public String loginForm() {
+        return "login";
+    }
+}
+```
+
+### `BoardController.java` (메인 페이지 컨트롤러)
+```java
+package com.example.spring.weathernotice.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class BoardController {
+
+    @GetMapping("/")
+    public String boardList() {
+        return "board-list";
+    }
+}
+```
+
+## 2. **DTO**
+
+### `RegisterDTO.java` (회원가입 요청 DTO)
+```java
+package com.example.spring.weathernotice.dto;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
+public class RegisterDTO {
+    private String userId;
+    private String password;
+    private String userName;
+
+    @Builder
+    public RegisterDTO(String userId, String password, String userName) {
+        this.userId = userId;
+        this.password = password;
+        this.userName = userName;
+    }
+}
+```
+
+### `LoginDTO.java` (로그인 요청 DTO)
+```java
+package com.example.spring.weathernotice.dto;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
+public class LoginDTO {
+    private String userId;
+    private String password;
+
+    @Builder
+    public LoginDTO(String userId, String password) {
+        this.userId = userId;
+        this.password = password;
+    }
+}
+```
+
+## 3. **Mapper**
+
+### `AccountMapper.java`
+```java
+package com.example.spring.weathernotice.mapper;
+
+import com.example.spring.weathernotice.model.Account;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+@Mapper
+public interface AccountMapper {
+    void register(Account account);
+    Account login(@Param("userId") String userId, @Param("password") String password);
+}
+```
+
+### `AccountMapper.xml`
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.spring.weathernotice.mapper.AccountMapper">
+
+    <insert id="register">
+        INSERT INTO account (userId, password, userName)
+        VALUES (#{userId}, #{password}, #{userName})
+    </insert>
+
+    <select id="login" resultType="com.example.spring.weathernotice.model.Account">
+        SELECT * FROM account WHERE userId = #{userId} AND password = #{password}
+    </select>
+
+</mapper>
+```
+
+## 4. **서비스**
+
+### `AccountService.java`
+```java
+package com.example.spring.weathernotice.service;
+
+import com.example.spring.weathernotice.dto.LoginDTO;
+import com.example.spring.weathernotice.mapper.AccountMapper;
+import com.example.spring.weathernotice.model.Account;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class AccountService {
+
+    private final AccountMapper accountMapper;
+
+    public void register(Account account) {
+        accountMapper.register(account);
+    }
+
+    public Account login(LoginDTO loginDTO) {
+        return accountMapper.login(loginDTO.getUserId(), loginDTO.getPassword());
+    }
+}
+```
+
+## 5. **HTML 뷰**
+
+### `register.html` (회원가입 페이지)
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/css/register.css}">
+  <title>회원가입</title>
+</head>
+<body>
+<div class="container">
+  <h1>회원가입</h1>
+  <form id="registerForm">
+    <div class="form-group">
+      <label for="username">아이디:</label>
+      <input type="text" id="username" name="userId" required>
+    </div>
+    <div class="form-group">
+      <label for="name">이름:</label>
+      <input type="text" id="name" name="userName" required>
+    </div>
+    <div class="form-group">
+      <label for="password">비밀번호:</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <button type="submit">회원가입</button>
+  </form>
+</div>
+
+<script>
+  document.getElementById('registerForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const formData = {
+      userId: document.getElementById('username').value,
+      userName: document.getElementById('name').value,
+      password: document.getElementById('password').value
+    };
+
+    fetch('/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(response => response.text())
+    .then(data => alert(data))
+    .catch(error => console.error('Error:', error));
+  });
+</script>
+</body>
+</html>
+```
+
+### `login.html` (로그인 페이지)
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/css/login.css}">
+  <title>로그인</title>
+</head>
+<body>
+<div class="container">
+  <h1>로그인</h1>
+  <form id="loginForm">
+    <div class="form-group">
+      <label for="username">아이디:</label>
+      <input type="text" id="username" name="userId" required>
+    </div>
+    <div class="form-group">
+      <label for="password">비밀번호:</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <button type="submit">로그인</button>
+  </form>
+</div>
+
+<script>
+  document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const formData = {
+      userId: document.getElementById('username').value,
+      password: document.getElementById('password').value
+    };
+
+    fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(response => response.text())
+    .then(data => alert(data))
+    .catch(error => console.error('Error:', error));
+  });
+</script>
+</body>
+</html>
+```
+
+### `board-list.html` (게시판 메인 페이지)
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/css/board.css}">

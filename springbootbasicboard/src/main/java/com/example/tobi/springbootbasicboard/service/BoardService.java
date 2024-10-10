@@ -63,22 +63,25 @@ public class BoardService {
         fileService.deleteFile(request.getFilePath());
     }
 
-    public void updateArticle(long id, String title, String content, String userId, MultipartFile file) {
-        String filePath = null;
-
-        // 파일이 있으면 새 파일을 업로드하고 경로 저장
-        if (file != null && !file.isEmpty()) {
-            filePath = fileService.fileUpload(file);
+    public void updateArticle(Long id, String title, String content, Boolean fileFlag, String filePath, MultipartFile file) {
+        // fileFlag == false or true
+        System.out.println("flag :: " + fileFlag);
+        String path = null;
+        if (fileFlag) {
+            fileService.deleteFile(filePath);
+            if (!file.isEmpty()) {
+                path = fileService.fileUpload(file);
+            }
+        } else {
+            path = filePath;
         }
 
-        // 수정할 게시글 정보를 업데이트
         boardMapper.updateArticle(
                 Board.builder()
                         .id(id)
                         .title(title)
                         .content(content)
-                        .userId(userId)
-                        .filePath(filePath) // 파일 경로는 새로 업로드된 파일 경로 사용
+                        .filePath(path)
                         .build()
         );
     }
