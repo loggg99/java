@@ -6,14 +6,14 @@ import lombok.Getter;
 @Getter
 @Builder
 public class RegisterDTO {
-    private String userId;
+    private String user_id;
     private String password;
-    private String userName;
+    private String user_name;
 
-    public RegisterDTO(String userId, String password, String userName) {
-        this.userId = userId;
+    public RegisterDTO(String user_id, String password, String user_name) {
+        this.user_id = user_id;
         this.password = password;
-        this.userName = userName;
+        this.user_name = user_name;
 
     }
 

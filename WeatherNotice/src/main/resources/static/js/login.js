@@ -2,7 +2,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     event.preventDefault();
 
     const data = {
-        userId: document.getElementById('username').value,
+        userId: document.getElementById('username').value,  // ★ 수정된 부분 (아이디 필드명 일치)
         password: document.getElementById('password').value
     };
 
@@ -13,13 +13,12 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         },
         body: JSON.stringify(data)
     })
-        .then(response => response.text())
-        .then(result => {
-            if (result === 'success') {
+        .then(response => {
+            if (response.ok) {
                 // 로그인 성공 시 메인 페이지로 이동
-                window.location.href = '/';
+                window.location.href = '/';  // ★ 수정된 부분
             } else {
-                alert('로그인에 실패했습니다. 아이디와 비밀번호를 확인하세요.');
+                alert('로그인에 실패했습니다.');
             }
         })
         .catch(error => {

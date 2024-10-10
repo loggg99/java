@@ -17,7 +17,7 @@ document.getElementById('registerForm').addEventListener('submit', function(even
         .then(response => {
             if (response.ok) {
                 // 회원가입 성공 시 로그인 페이지로 이동
-                window.location.href = '/login';
+                window.location.href = '/login';  // ★ 수정된 부분
             } else {
                 alert('회원가입에 실패했습니다.');
             }
