@@ -5,9 +5,11 @@ import com.example.spring.weathernotice.mapper.AccountMapper;
 import com.example.spring.weathernotice.model.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AccountService {
 
     private final AccountMapper accountMapper;
@@ -18,7 +20,7 @@ public class AccountService {
     }
 
     public Account login(LoginDTO loginDTO) {
-        return accountMapper.login(loginDTO.getUserId(), loginDTO.getPassword());
+        return accountMapper.login(loginDTO.getUserid(), loginDTO.getPassword());
     }
 
 

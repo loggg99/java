@@ -2,7 +2,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     event.preventDefault();
 
     const data = {
-        userId: document.getElementById('username').value,
+        userid: document.getElementById('username').value,
         password: document.getElementById('password').value
     };
 

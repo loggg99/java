@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" th:href="@{/css/board.css}">
+  <link rel="stylesheet" href="/css/board.css">
   <title>날씨 게시판</title>
 </head>
 <body>
 <div class="container">
   <header>
     <h1>날씨 게시판</h1>
-    <p class="greeting">사용자님, <span id="username">홍길동</span> 안녕하세요!</p>
+    <p class="greeting">사용자님, <span id="username"></span> 안녕하세요!</p>
     <div class="auth-buttons">
       <button onclick="location.href='/login'">로그인</button>
       <button onclick="location.href='/register'">회원가입</button>
@@ -34,5 +34,6 @@
 </div>
 
 
+<script src="/js/board.js"></script>
 </body>
 </html>
