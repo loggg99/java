@@ -1,8 +1,8 @@
-package com.example.spring.weathernotice.service;
+package com.example.spring.wn.service;
 
-import com.example.spring.weathernotice.dto.LoginDTO;
-import com.example.spring.weathernotice.mapper.AccountMapper;
-import com.example.spring.weathernotice.model.Account;
+import com.example.spring.wn.dto.LoginDTO;
+import com.example.spring.wn.mapper.AccountMapper;
+import com.example.spring.wn.model.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +21,7 @@ public class AccountService {
     }
 
     public Account login(LoginDTO loginDTO) {
-        return accountMapper.login(loginDTO.getUserid(), loginDTO.getPassword());
+        return accountMapper.login(loginDTO.getUserId(), loginDTO.getPassword());
     }
 
 

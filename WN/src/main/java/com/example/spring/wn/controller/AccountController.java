@@ -1,10 +1,10 @@
-package com.example.spring.weathernotice.controller;
+package com.example.spring.wn.controller;
 
-import com.example.spring.weathernotice.service.AccountService;
+
 import lombok.RequiredArgsConstructor;
+import com.example.spring.wn.service.AccountService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor

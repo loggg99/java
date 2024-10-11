@@ -8,11 +8,16 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mappers/*.xml
+<<<<<<< HEAD
 
 weather:
   api:
     url: "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst"
     key: "kASQEznlUpHNFnsXoucR1xFy1Rej3ldegAFRXhHNsQgp1nCtnlRZKJLe+cquSnV/3fe8DvkQXGVsHt8RFtsWmA=="
+=======
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+>>>>>>> 2ab4e023df6867cd976f8545a4bb64c0cb52043d
 
 server:
   port: 8085
