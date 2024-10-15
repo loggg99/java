@@ -7,12 +7,12 @@ import lombok.ToString;
 @Getter
 @ToString
 public class LoginDTO {
-    private String userId;
+    private String userid;
     private String password;
 
     public Account toAccount() {
         return Account.builder()
-                .userId(userId)
+                .userid(userid)
                 .password(password)
                 .build();
     }

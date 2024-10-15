@@ -2,7 +2,11 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     event.preventDefault();
 
     const data = {
+<<<<<<< HEAD
+        userid: document.getElementById('username').value,
+=======
         userId: document.getElementById('username').value,  // ★ 수정된 부분 (아이디 필드명 일치)
+>>>>>>> 2ab4e023df6867cd976f8545a4bb64c0cb52043d
         password: document.getElementById('password').value
     };
 

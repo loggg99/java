@@ -29,10 +29,12 @@ public class BoardService {
     }
 
     public int getTotalBoards() {
+
         return boardMapper.countBoards(); // 총 게시글 수 반환
     }
 
     public Board getBoardDetail(long id) {
+
         return boardMapper.selectBoardDetail(id);
     }
 

@@ -6,12 +6,12 @@
 <mapper namespace="com.example.spring.weathernotice.mapper.AccountMapper">
 
     <insert id="register">
-        INSERT INTO account (user_id, password, user_name)
-        VALUES (#{user_id}, #{password}, #{user_name})
+        INSERT INTO account (userid, password, username)
+        VALUES (#{userid}, #{password}, #{username})
     </insert>
 
     <select id="login" resultType="com.example.spring.weathernotice.model.Account">
-        SELECT * FROM account WHERE user_id = #{user_id}
+        SELECT * FROM account WHERE userid = #{userid}
     </select>
 
 </mapper>

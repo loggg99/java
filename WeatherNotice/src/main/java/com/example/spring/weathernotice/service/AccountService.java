@@ -21,7 +21,7 @@ public class AccountService {
     }
 
     public Account login(LoginDTO loginDTO) {
-        return accountMapper.login(loginDTO.getUserId(), loginDTO.getPassword());
+        return accountMapper.login(loginDTO.getUserid(), loginDTO.getPassword());
     }
 
 
