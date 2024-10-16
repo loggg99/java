@@ -1,32 +1,30 @@
 package com.example.tobi.himedia_shop.project.controller;
 
-import ch.qos.logback.core.model.Model;
+
+
 import com.example.tobi.himedia_shop.project.model.Product;
 import com.example.tobi.himedia_shop.project.service.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
-public class BoardController {
+@RequiredArgsConstructor
+public class ProductController {
 
     private final ProductService productService;
-
-    public BoardController(ProductService productService) {
-        this.productService = productService;
-    }
 
     @GetMapping("/search")
     public String searchProducts(@RequestParam("q") String searchTerm, Model model) {
         List<Product> products = productService.searchProduct(searchTerm);
-
-        // Model 객체에 검색된 상품 리스트를 추가
         model.addAttribute("products", products);
-
-        // 검색 결과 페이지로 이동
-        return "search-results";  // 이 뷰 파일은 /templates/search-results.html에 존재해야 합니다.
+        return "search-results";
     }
-}
 
+
+}

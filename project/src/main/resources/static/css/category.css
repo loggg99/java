@@ -1,4 +1,3 @@
-/* 기본 스타일 */
 * {
     margin: 0;
     padding: 0;
@@ -7,154 +6,176 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background: #FFFFFF;
-    min-height: 100vh;
-    position: relative;
 }
 
-.container {
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 20px;
+.header {
     position: relative;
-}
-
-/* Header */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    width: 100%;
     height: 74px;
-    background-color: #FFFFFF;
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-    padding: 0 20px;
+    background-color: #FFFFFF;
 }
 
-header .login-actions a {
-    margin-left: 20px;
-    font-size: 18px;
-    text-decoration: none;
+.logo {
+    position: absolute;
+    top: 19px;
+    left: 17px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.line {
+    width: 57px;
+    height: 4px;
+    background-color: #000;
+    margin-bottom: 10px;
+}
+
+.top-menu {
+    position: absolute;
+    right: 0;
+    top: 19px;
+    width: 293px;
+    text-align: right;
+    font-style: italic;
+    font-weight: 100;
+    font-size: 30px;
+    line-height: 36px;
+    color: #000;
+    padding-right: 10px;
+}
+
+.category {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.category h1 {
+    font-size: 30px;
+    line-height: 36px;
+    font-weight: 400;
     color: #000;
 }
 
-/* 카테고리 및 정렬 섹션 */
-.category-section {
+.image-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F6F0F0;
-    padding: 20px;
-    margin-top: 20px;
-    position: relative; /* 정렬 텍스트 배치를 위한 상대 위치 */
-}
-
-.category-section h2 {
-    font-size: 30px;
-    font-weight: 400;
-    color: #000000;
-    text-align: center;
-}
-
-.category-section .sort {
-    font-size: 24px;
-    color: #000000;
-    margin-top: 20px; /* 카테고리보다 한 칸 아래로 배치 */
-    position: absolute;
-    right: 20px; /* 오른쪽 끝으로 배치 */
-    top: 70px; /* 카테고리보다 아래 배치 */
-}
-
-/* 상품 이미지 그리드 */
-.product-grid {
-    display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    margin-top: 50px;
     flex-wrap: wrap;
-    gap: 40px;
-    margin-top: 40px;
 }
 
-.product-item {
-    width: 184px;
-    height: 274px;
-    background-color: #f0f0f0;
-}
-
-.product-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Footer */
-footer {
+.image-box {
+    width: 328px;
+    height: 494px;
     background-color: #D9D9D9;
-    padding: 20px;
-    text-align: left;
-    font-size: 18px;
-    position: absolute;
-    bottom: 0;
+    background-image: url('image.png');
+    background-size: cover;
+    margin: 10px;
+}
+
+.footer {
+    position: relative;
     width: 100%;
     height: 113px;
+    background-color: #D9D9D9;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 50px;
 }
 
-/* 최하단 고정 푸터 */
-html {
+.contact {
+    font-size: 30px;
+    line-height: 36px;
+    font-weight: 400;
+    color: #000;
+}
+
+/* Search Drawer (Sliding search menu) */
+.search-menu {
     height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    padding-left: 30px;
 }
 
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100%;
+.search-menu .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    color: white;
 }
 
-.container {
-    flex: 1;
+.search-input {
+    width: 80%;
+    padding: 10px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
 }
 
-/* 반응형 미디어 쿼리 */
-@media (max-width: 1024px) {
-    .product-grid {
-        flex-direction: row;
-        justify-content: center;
-        gap: 20px;
-    }
+.search-btn {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-    .product-item {
-        width: 150px;
-        height: 220px;
-    }
+.search-btn:hover {
+    background-color: #45a049;
+}
 
-    .category-section h2, .category-section .sort {
+/* 반응형 설정 */
+@media (max-width: 768px) {
+    .top-menu {
         font-size: 24px;
     }
 
-    header .login-actions a {
-        font-size: 16px;
+    .image-box {
+        width: 200px;
+        height: 300px;
+    }
+
+    .category h1 {
+        font-size: 24px;
+    }
+
+    .contact {
+        font-size: 24px;
     }
 }
 
-@media (max-width: 768px) {
-    .product-grid {
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
+@media (max-width: 480px) {
+    .top-menu {
+        font-size: 18px;
     }
 
-    .product-item {
-        width: 90%;
-        max-width: 300px;
-        height: auto;
+    .image-box {
+        width: 150px;
+        height: 200px;
     }
 
-    .category-section h2, .category-section .sort {
+    .category h1 {
         font-size: 20px;
     }
 
-    footer {
-        font-size: 14px;
+    .contact {
+        font-size: 20px;
     }
 }

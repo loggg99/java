@@ -10,7 +10,14 @@ body {
     width: 100%;
     margin: 0 auto;
     background: #FFFFFF;
-    padding-bottom: 60px; /* 푸터 높이만큼 패딩 추가 */
+    min-height: 100vh; /* 화면의 최소 높이를 100%로 설정 */
+    display: flex;
+    flex-direction: column; /* flexbox로 정렬 */
+    justify-content: space-between; /* 푸터를 아래로 밀어내기 위한 설정 */
+}
+
+main {
+    flex: 1; /* 콘텐츠 영역이 푸터를 밀어내도록 설정 */
 }
 
 /* 헤더 */
@@ -35,11 +42,21 @@ header {
     color: #000000;
 }
 
-/* 날씨 섹션 (왼쪽 정렬) */
-.weather {
-    display: flex;
-    align-items: center;
-    font-size: 18px;
+/* 검색창 숨김 설정 */
+.search-bar {
+    display: none; /* 기본적으로 숨김 */
+    margin-top: 10px;
+}
+
+.search-bar input {
+    padding: 5px;
+    font-size: 16px;
+}
+
+.search-bar button {
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 /* 카테고리 섹션 */
@@ -96,14 +113,12 @@ footer {
     padding: 20px;
     text-align: left;
     font-size: 18px;
-    position: fixed; /* 푸터 고정 */
-    bottom: 0; /* 하단 고정 */
-    width: 100%; /* 가로 크기 100% */
-    height: 60px; /* 고정된 푸터 높이 */
+    width: 100%;
+    height: 60px; /* 푸터 높이 설정 */
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* 다른 요소 위에 위치 */
+    position: relative; /* fixed 대신 relative로 설정 */
 }
 
 /* 반응형 미디어 쿼리 */
