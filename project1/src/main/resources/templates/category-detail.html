@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>카테고리 페이지</title>
+  <link th:href="@{/css/category.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <div class="menu-logo-container">
+      <div class="menu-btn" onclick="toggleMenu()">☰</div> <!-- 삼선 버튼 -->
+      <div class="logo">쇼핑몰 로고</div> <!-- 쇼핑몰 로고 -->
+    </div>
+    <div class="login-actions">
+      <a href="#">로그인</a>
+      <a href="#">마이페이지</a>
+    </div>
+  </header>
+
+  <!-- 카테고리 섹션 -->
+  <section class="category-section">
+    <h2>카테고리</h2>
+  </section>
+
+  <!-- 상품 이미지 섹션 -->
+  <section class="product-grid">
+    <div class="product-item">
+      <img src="image.png" alt="Product 1">
+    </div>
+    <div class="product-item">
+      <img src="image.png" alt="Product 2">
+    </div>
+    <div class="product-item">
+      <img src="image.png" alt="Product 3">
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>tel : 010-xxxx-xxxx</p>
+    <p>location : xxxx-xxxx-xxxx</p>
+  </footer>
+</div>
+
+<!-- 사이드바 -->
+<div id="side-menu" class="side-menu">
+  <div class="search-container">
+    <input type="text" placeholder="검색...">
+    <button>검색</button>
+  </div>
+  <button class="close-btn" onclick="toggleMenu()">X</button>
+  <ul>
+    <li><a href="#">카테고리 1</a></li>
+    <li><a href="#">카테고리 2</a></li>
+    <li><a href="#">카테고리 3</a></li>
+    <li><a href="#">카테고리 4</a></li>
+    <li><a href="#">카테고리 5</a></li>
+  </ul>
+</div>
+
+<script th:src="@{/js/category.js}"></script>
+</body>
+</html>

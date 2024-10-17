@@ -1,0 +1,29 @@
+/* 검색창 스타일 추가 */
+.sidenav .search-container {
+    padding: 10px 32px;
+    display: flex;
+    flex-direction: column; /* 검색창과 버튼을 세로로 배치 */
+}
+
+.sidenav input[type="text"] {
+    width: 80%;
+    padding: 5px;
+    margin-bottom: 10px; /* 검색창과 버튼 사이의 간격 추가 */
+    border: none;
+    background: #f1f1f1;
+    color: black;
+}
+
+.sidenav button {
+    width: 80%;
+    padding: 10px;
+    background-color: #444;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.sidenav button:hover {
+    background-color: #555;
+}
