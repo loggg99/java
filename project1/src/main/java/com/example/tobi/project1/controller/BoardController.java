@@ -8,6 +8,7 @@ public class BoardController {
 
     @GetMapping("/")
     public String main() {
+
         return "main-connected";
     }
 }

@@ -23,8 +23,17 @@
 
   <!-- 카테고리 섹션 -->
   <section class="category-section">
-    <h2>카테고리</h2>
+    <h2 th:text="${subCategoryName}"></h2>
+    <!-- 서브 카테고리 이름만 출력 -->
   </section>
+
+<!--  <section class="product-grid">-->
+<!--    <div th:each="product : ${products}" class="product-item">-->
+<!--      <img th:src="@{${product.contentImg}}" alt="Product Image">-->
+<!--      <h3 th:text="${product.title}"></h3>-->
+<!--      <p th:text="${product.price} + '원'"></p>-->
+<!--    </div>-->
+<!--  </section>-->
 
   <!-- 상품 이미지 섹션 -->
   <section class="product-grid">
@@ -52,13 +61,13 @@
     <input type="text" placeholder="검색...">
     <button>검색</button>
   </div>
-  <button class="close-btn" onclick="toggleMenu()">X</button>
+  <button class="close-btn" onclick="closeMenu(event)">&times;</button>
   <ul>
-    <li><a href="#">카테고리 1</a></li>
-    <li><a href="#">카테고리 2</a></li>
-    <li><a href="#">카테고리 3</a></li>
-    <li><a href="#">카테고리 4</a></li>
-    <li><a href="#">카테고리 5</a></li>
+    <li><a href="#" th:href="@{/category/1}">카테고리 1</a></li>
+    <li><a href="#" th:href="@{/category/2}">카테고리 2</a></li>
+    <li><a href="#" th:href="@{/category/3}">카테고리 3</a></li>
+    <li><a href="#" th:href="@{/category/4}">카테고리 4</a></li>
+    <li><a href="#" th:href="@{/category/5}">카테고리 5</a></li>
   </ul>
 </div>
 

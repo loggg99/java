@@ -11,12 +11,13 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class SearchProductController {
+public class SearchProductApiController {
 
     private final SearchService searchService;
 
     @GetMapping("/api/products/search")
-    public List<SearchProduct> searchProducts(@RequestParam("keyword") String keyword) {
+    public List<SearchProduct> searchProducts(
+            @RequestParam("keyword") String keyword) {
         return searchService.searchProducts(keyword);
     }
 }

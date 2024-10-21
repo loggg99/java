@@ -8,6 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface SearchProductMapper {
-    List<SearchProduct> searchProducts(
-            @Param("keyword") String keyword);
+    List<SearchProduct> searchProducts (String keyword);
+
+    List<SearchProduct> findProductsByCategoryAndSubCategory(Long categoryId, Long subCategoryId);
 }

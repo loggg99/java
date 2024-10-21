@@ -13,15 +13,17 @@ import java.time.LocalDateTime;
 public class SearchProduct {
     private int id;
     private String category;
-    private int sellerId;
+//    서브카테고리추가
+    private String sellerId;
     private String content;
     private String title;
     private String contentImg;
     private LocalDateTime created;
     private LocalDateTime updated;
-    private boolean salesStatus;
-    private int stock;
+    private int salesStatus;
+    private int Stock;
     private int price;
     private int temperature;
-    private int precipitation;
+    private String precipitation;
+
 }

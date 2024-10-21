@@ -1,29 +1,297 @@
-/* 검색창 스타일 추가 */
-.sidenav .search-container {
-    padding: 10px 32px;
+/* 기본 스타일 */
+body, html {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    overflow-x: hidden;
+    height: 100vh;
     display: flex;
-    flex-direction: column; /* 검색창과 버튼을 세로로 배치 */
+    flex-direction: column;
 }
 
-.sidenav input[type="text"] {
-    width: 80%;
-    padding: 5px;
-    margin-bottom: 10px; /* 검색창과 버튼 사이의 간격 추가 */
-    border: none;
-    background: #f1f1f1;
+/* 전체 레이아웃을 감싸는 wrapper */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* 메인 컨텐츠가 남은 공간을 차지하도록 */
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+}
+
+/* 위치 선택 스타일 */
+.location-select {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+}
+
+header {
+    background-size: 100% 100%;
     color: black;
+    padding: 20px;
+    text-align: center;
+    font-size: 36px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.sidenav button {
-    width: 80%;
-    padding: 10px;
-    background-color: #444;
-    color: white;
+.login-actions {
+    font-size: 20px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    display: flex;
+    margin-left: 20px;
+}
+
+.login-actions a {
+    text-decoration: none;
+    color: #333;
+    padding: 8px 15px;
     border: none;
-    cursor: pointer;
+    border-radius: 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.login-actions a:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    background-color: #444;
+    position: fixed;
+    top: 0;
+    width: 80%;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+nav a {
+    color: #fff;
+    padding: 14px 20px;
+    text-decoration: none;
     text-align: center;
 }
 
-.sidenav button:hover {
+nav a:hover {
     background-color: #555;
+}
+
+section {
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+}
+
+.image-section {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.image-section img {
+    max-width: 300px;
+    height: 400px;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+}
+
+/* 사이드바 스타일 */
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1001;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 60px;
+    transition: 0.5s;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+/* 메인 페이지 사이드바 검색창 및 버튼 스타일 */
+.sidenav .search-container {
+    padding: 15px; /* 카테고리 페이지와 동일하게 */
+    display: flex;
+    flex-direction: column; /* 검색 칸과 버튼을 세로로 배치 */
+}
+
+.sidenav input[type="text"] {
+    flex: 1;
+    padding: 10px; /* 카테고리 페이지와 동일한 패딩 */
+    border: none;
+    border-radius: 4px;
+    margin-bottom: 10px; /* 검색 버튼과 검색칸 사이의 간격 */
+    width: 100%; /* 입력창 전체 너비로 설정 (카테고리 페이지와 동일) */
+    box-sizing: border-box; /* 패딩을 포함하여 너비 설정 */
+}
+
+.sidenav button {
+    padding: 10px; /* 카테고리 페이지와 동일한 패딩 */
+    background-color: #575757;
+    border: none;
+    color: white;
+    cursor: pointer;
+    width: 100%; /* 버튼을 전체 너비로 설정 */
+    border-radius: 4px; /* 버튼 모양을 카테고리 페이지와 동일하게 */
+}
+
+.sidenav button:hover {
+    background-color: #444;
+}
+
+
+#main {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+/* 오픈 버튼 스타일 */
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #111;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1002;
+}
+
+.openbtn:hover {
+    background-color: #444;
+}
+
+/* 오픈 버튼 숨기기 */
+.openbtn-hidden {
+    display: none;
+}
+
+/* connectionpage.css */
+#provinceSelect, .weather-details {
+    float: right;
+    text-align: right;
+    margin-right: 20px;
+}
+
+/* 상품 이미지 스타일 추가 */
+.product-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.product {
+    text-align: center;
+    margin: 15px;
+}
+
+.product img {
+    width: 150px;
+    height: auto;
+}
+
+/* 상품 슬라이드 쇼 스타일 */
+.product-slider-container {
+    overflow: hidden;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.product-slider {
+    display: flex;
+    transition: transform 1s ease;
+}
+
+.slide {
+    flex: 0 0 33.333%;
+    max-width: 33.333%;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 10px;
+}
+
+.slide img {
+    width: 100%;
+    height: auto;
+}
+
+/* 반응형 디자인 */
+@media screen and (max-width: 768px) {
+    .product-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product {
+        width: 80%;
+        max-width: 250px;
+        margin-bottom: 20px;
+    }
+
+    .slide {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
 }

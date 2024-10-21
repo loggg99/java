@@ -44,9 +44,12 @@ header {
 }
 
 .login-actions a {
-    margin-left: 20px;
     text-decoration: none;
     color: #333;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 20px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 /* 카테고리 섹션 */
@@ -72,15 +75,21 @@ header {
 /* 사이드바 스타일 */
 .side-menu {
     height: 100%;
-    width: 0;
+    width: 250px;
     position: fixed;
+    z-index: 1001;
     top: 0;
     left: 0;
-    background-color: #333;
-    overflow-x: hidden;
-    transition: 0.3s;
+    background-color: #111;
+    overflow-x: hidden; /* 가로 스크롤 숨김 */
+    overflow-y: auto; /* 세로 스크롤 가능 */
     padding-top: 60px;
-    z-index: 1000;
+    transform: translateX(-100%); /* 기본적으로 숨김 (왼쪽으로 이동) */
+    transition: transform 0.5s ease; /* 부드럽게 열고 닫기 */
+}
+
+.side-menu.open {
+    transform: translateX(0); /* 화면에 보이도록 */
 }
 
 .side-menu ul {
@@ -90,13 +99,23 @@ header {
 }
 
 .side-menu ul li {
-    padding: 10px 15px;
+    padding: 1px 15px;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
 }
 
+/* 카테고리 페이지 사이드바 글자 스타일을 메인 페이지와 동일하게 */
 .side-menu ul li a {
+    padding: 8px 8px 8px 32px; /* 메인 페이지와 동일한 패딩 */
+    font-size: 25px; /* 메인 페이지와 동일한 글자 크기 */
+    color: #818181; /* 메인 페이지와 동일한 글자 색깔 */
     text-decoration: none;
-    color: white;
-    font-size: 18px;
+    display: block;
+    transition: 0.3s;
+}
+
+/* 링크 hover 효과 */
+.side-menu ul li a:hover {
+    color: #f1f1f1;
 }
 
 .side-menu .search-container {
@@ -111,6 +130,8 @@ header {
     border: none;
     border-radius: 4px;
     margin-bottom: 10px; /* 검색 버튼과 검색칸 사이의 간격 */
+    width: 100%; /* 입력창 전체 너비로 설정 */
+    box-sizing: border-box; /* padding을 포함하여 너비 설정 */
 }
 
 .side-menu .search-container button {
@@ -120,22 +141,63 @@ header {
     color: white;
     cursor: pointer;
     width: 100%; /* 버튼을 전체 너비로 설정 */
+    border-radius: 4px;
 }
 
+.side-menu .search-container button:hover {
+    background-color: #444;
+}
+
+/* 카테고리 페이지 사이드바 닫힘 버튼 스타일 */
 .side-menu .close-btn {
+    font-size: 36px; /* 메인 페이지의 닫힘 버튼과 동일한 크기 */
+    color: #818181; /* 메인 페이지의 닫힘 버튼 색상 */
+    cursor: pointer;
+    background: none;
+    border: none;
     position: absolute;
     top: 10px;
     right: 25px;
-    font-size: 36px;
-    color: white;
-    background: none;
-    border: none;
-    cursor: pointer;
+    transition: color 0.3s; /* 색상 전환 효과 */
 }
 
+/*!* 사이드바 닫기 버튼 *!*/
+/*.side-menu .close-btn {*/
+/*    position: absolute;*/
+/*    top: 10px;*/
+/*    right: 25px;*/
+/*    font-size: 20px;*/
+/*    color: white;*/
+/*    cursor: pointer;*/
+/*    background: none;*/
+/*    border: none;*/
+/*    z-index: 2000; !* 높은 z-index 설정 *!*/
+/*}*/
+
+
 .side-menu .close-btn:hover {
-    color: #bbb;
+    color: #f1f1f1; /* 메인 페이지와 동일한 호버 색상 */
 }
+
+/* 오픈 버튼 숨기기 */
+.openbtn-hidden {
+    display: none; /* 삼선 버튼 숨기기 */
+}
+
+/* 오픈 버튼 스타일 */
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #111;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1002;
+}
+
 
 /* Footer */
 footer {

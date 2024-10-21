@@ -11,4 +11,12 @@
             OR content LIKE CONCAT('%', #{keyword}, '%'))
     </select>
 
+    <select id="findProductsByCategoryAndSubCategory" parameterType="map" resultType="com.example.tobi.project1.model.SearchProduct">
+        SELECT * FROM products
+        WHERE category_id = #{categoryId}
+          AND sub_category_id = #{subCategoryId}
+    </select>
+
+
+
 </mapper>
