@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class SearchProduct {
     private int id;
     private String category;
-//    서브카테고리추가
+    private String subCategory;
     private String sellerId;
     private String content;
     private String title;

@@ -5,14 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>카테고리 페이지</title>
   <link th:href="@{/css/category.css}" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery 추가 -->
+  <script th:src="@{/js/category.js}"></script> <!-- JavaScript 파일 연결 -->
 </head>
 <body>
 <div class="container">
-
   <!-- Header -->
   <header>
     <div class="menu-logo-container">
-      <div class="menu-btn" onclick="toggleMenu()">☰</div> <!-- 삼선 버튼 -->
+      <button class="menu-btn" id="menuBtn">☰</button> <!-- 삼선 버튼 -->
       <div class="logo">쇼핑몰 로고</div> <!-- 쇼핑몰 로고 -->
     </div>
     <div class="login-actions">
@@ -23,20 +24,11 @@
 
   <!-- 카테고리 섹션 -->
   <section class="category-section">
-    <h2 th:text="${subCategoryName}"></h2>
-    <!-- 서브 카테고리 이름만 출력 -->
+    <h2 th:text="${subCategoryName}"></h2> <!-- 서브 카테고리 이름만 출력 -->
   </section>
 
-<!--  <section class="product-grid">-->
-<!--    <div th:each="product : ${products}" class="product-item">-->
-<!--      <img th:src="@{${product.contentImg}}" alt="Product Image">-->
-<!--      <h3 th:text="${product.title}"></h3>-->
-<!--      <p th:text="${product.price} + '원'"></p>-->
-<!--    </div>-->
-<!--  </section>-->
-
   <!-- 상품 이미지 섹션 -->
-  <section class="product-grid">
+  <section class="product-grid" id="search-result-container">
     <div class="product-item">
       <img src="image.png" alt="Product 1">
     </div>
@@ -56,21 +48,54 @@
 </div>
 
 <!-- 사이드바 -->
-<div id="side-menu" class="side-menu">
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" id="closeBtn">&times;</a>
+
+  <!-- 검색 기능 추가 -->
   <div class="search-container">
     <input type="text" placeholder="검색...">
     <button>검색</button>
   </div>
-  <button class="close-btn" onclick="closeMenu(event)">&times;</button>
-  <ul>
-    <li><a href="#" th:href="@{/category/1}">카테고리 1</a></li>
-    <li><a href="#" th:href="@{/category/2}">카테고리 2</a></li>
-    <li><a href="#" th:href="@{/category/3}">카테고리 3</a></li>
-    <li><a href="#" th:href="@{/category/4}">카테고리 4</a></li>
-    <li><a href="#" th:href="@{/category/5}">카테고리 5</a></li>
-  </ul>
-</div>
 
-<script th:src="@{/js/category.js}"></script>
+  <!-- TOP 카테고리 항목 -->
+  <div class="dropdown">
+    <a href="javascript:void(0)" class="dropdown-btn">TOP</a>
+    <ul class="dropdown-content">
+      <li><a th:href="@{/category/TOP/T-shirts}">T-Shirts</a></li>
+      <li><a th:href="@{/category/TOP/Shirts}">Shirts</a></li>
+      <li><a th:href="@{/category/TOP/Sweaters}">Sweaters</a></li>
+    </ul>
+  </div>
+
+  <!-- OUTER 카테고리 항목 -->
+  <div class="dropdown">
+    <a href="javascript:void(0)" class="dropdown-btn">OUTER</a>
+    <ul class="dropdown-content">
+      <li><a th:href="@{/category/OUTER/Coats}">Coats</a></li>
+      <li><a th:href="@{/category/OUTER/Jackets}">Jackets</a></li>
+      <li><a th:href="@{/category/OUTER/Hoodies}">Hoodies</a></li>
+    </ul>
+  </div>
+
+  <!-- BOTTOM 카테고리 항목 -->
+  <div class="dropdown">
+    <a href="javascript:void(0)" class="dropdown-btn">BOTTOM</a>
+    <ul class="dropdown-content">
+      <li><a th:href="@{/category/BOTTOM/Jeans}">Jeans</a></li>
+      <li><a th:href="@{/category/BOTTOM/Slacks}">Slacks</a></li>
+      <li><a th:href="@{/category/BOTTOM/Shorts}">Shorts</a></li>
+    </ul>
+  </div>
+
+  <!-- ACC 카테고리 항목 -->
+  <div class="dropdown">
+    <a href="javascript:void(0)" class="dropdown-btn">ACC</a>
+    <ul class="dropdown-content">
+      <li><a th:href="@{/category/ACC/Bags}">Bags</a></li>
+      <li><a th:href="@{/category/ACC/Hats}">Hats</a></li>
+      <li><a th:href="@{/category/ACC/Scarves}">Scarves</a></li>
+    </ul>
+  </div>
+</div>
 </body>
 </html>

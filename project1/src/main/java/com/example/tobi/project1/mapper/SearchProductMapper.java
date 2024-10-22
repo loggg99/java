@@ -10,5 +10,5 @@ import java.util.List;
 public interface SearchProductMapper {
     List<SearchProduct> searchProducts (String keyword);
 
-    List<SearchProduct> findProductsByCategoryAndSubCategory(Long categoryId, Long subCategoryId);
+
 }
