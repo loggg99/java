@@ -1,0 +1,22 @@
+검색기능 : mybatis, like연산자 사용, 페이징
+
+<title>
+
+Perfect for any occasion
+Available in various sizes
+Comfortable and stylish
+Best selling product this season
+High quality fabric
+Durable and long-lasting
+Limited edition design
+
+===========================
+<content>
+
+Elegant Dress
+Cool Hat
+Comfortable Shoes
+Trendy Jacket
+Stylish Pants
+Fancy Watch
+Amazing Shirt

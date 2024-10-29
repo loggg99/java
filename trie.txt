@@ -1,0 +1,139 @@
+package com.example.tobi.himedia_shop.controller;
+
+import com.example.tobi.himedia_shop.model.SearchProduct;
+import com.example.tobi.himedia_shop.service.SearchService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@RestController
+@RequiredArgsConstructor
+public class SearchProductApiController {
+
+    private final SearchService searchService;
+    private final TrieAutoComplete trieAutoComplete = new TrieAutoComplete();
+
+    // Trie를 초기화하는 메소드 (애플리케이션 초기화 시 데이터베이스의 모든 데이터를 Trie에 삽입)
+    public void initializeTrieFromDatabase() {
+        List<SearchProduct> products = searchService.getAllProducts();
+        for (SearchProduct product : products) {
+            trieAutoComplete.insert(product.getTitle());
+            trieAutoComplete.insert(product.getContent());
+        }
+    }
+
+    @GetMapping("/api/products/search")
+    public List<String> searchProduct(@RequestParam("keyword") String keyword) {
+        return trieAutoComplete.autocomplete(keyword);
+    }
+}
+
+class TrieAutoComplete {
+    private TrieNode root;
+
+    public TrieAutoComplete() {
+        root = new TrieNode();
+    }
+
+    public void insert(String word) {
+        TrieNode current = root;
+        for (char ch : word.toCharArray()) {
+            current = current.children.computeIfAbsent(ch, c -> new TrieNode());
+        }
+        current.isWord = true;
+    }
+
+    public List<String> autocomplete(String prefix) {
+        List<String> results = new ArrayList<>();
+        TrieNode current = root;
+        for (char ch : prefix.toCharArray()) {
+            TrieNode node = current.children.get(ch);
+            if (node == null) {
+                return results; // No matches found
+            }
+            current = node;
+        }
+        findAllWords(current, new StringBuilder(prefix), results);
+        return results;
+    }
+
+    private void findAllWords(TrieNode node, StringBuilder prefix, List<String> results) {
+        if (node.isWord) {
+            results.add(prefix.toString());
+        }
+        for (Map.Entry<Character, TrieNode> entry : node.children.entrySet()) {
+            prefix.append(entry.getKey());
+            findAllWords(entry.getValue(), prefix, results);
+            prefix.deleteCharAt(prefix.length() - 1);
+        }
+    }
+
+    private static class TrieNode {
+        Map<Character, TrieNode> children = new HashMap<>();
+        boolean isWord;
+    }
+}
+
+@Controller
+public class MainController {
+    @GetMapping("/")
+    public String main() {
+        return "main-connected";
+    }
+}
+
+@Controller
+public class CategoryController {
+    @GetMapping("/category/{category}/{subCategory}")
+    public String categoryDetail(
+            @PathVariable("category") String category,
+            @PathVariable("subCategory") String subCategory,
+            Model model) {
+        model.addAttribute("subCategoryName", subCategory);
+        model.addAttribute("CategoryName", category);
+        return "category-detail";
+    }
+}
+
+package com.example.tobi.himedia_shop.service;
+
+import com.example.tobi.himedia_shop.mapper.SearchProductMapper;
+import com.example.tobi.himedia_shop.model.SearchProduct;
+lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class SearchService {
+    private final SearchProductMapper searchProductMapper;
+
+    public List<SearchProduct> searchProduct(String keyword) {
+        return searchProductMapper.searchProducts(keyword);
+    }
+
+    public List<SearchProduct> getAllProducts() {
+        return searchProductMapper.getAllProducts();
+    }
+}
+
+package com.example.tobi.himedia_shop.mapper;
+
+import com.example.tobi.himedia_shop.model.SearchProduct;
+import org.apache.ibatis.annotations.Mapper;
+import java.util.List;
+
+@Mapper
+public interface SearchProductMapper {
+    List<SearchProduct> searchProducts(String keyword);
+    List<SearchProduct> getAllProducts();
+}

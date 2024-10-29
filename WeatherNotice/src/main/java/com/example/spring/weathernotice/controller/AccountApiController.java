@@ -27,15 +27,14 @@ public class AccountApiController {
         System.out.println("RegisterDTO: " + registerDTO);
 
         Account account = Account.builder()
-<<<<<<< HEAD
                 .userid(registerDTO.getUserid())
                 .password(registerDTO.getPassword())
                 .username(registerDTO.getUsername())
-=======
+
                 .userId(registerDTO.getUser_id())
                 .password(registerDTO.getPassword())
                 .userName(registerDTO.getUser_name())
->>>>>>> 2ab4e023df6867cd976f8545a4bb64c0cb52043d
+
                 .build();
 
         accountService.register(account);
@@ -54,7 +53,7 @@ public class AccountApiController {
         }
     }
 
-<<<<<<< HEAD
+
     @GetMapping("/api/getUsername")
     public ResponseEntity<Map<String, String>> getUsername(HttpSession session) {
         String username = (String) session.getAttribute("account");  // 세션에서 사용자 이름 가져오기

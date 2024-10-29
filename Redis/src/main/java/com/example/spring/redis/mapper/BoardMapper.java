@@ -1,7 +1,7 @@
-package com.example.tobi.springbootbasicboard.mapper;
+package com.example.spring.redis.mapper;
 
-import com.example.tobi.springbootbasicboard.model.Board;
-import com.example.tobi.springbootbasicboard.model.Paging;
+import com.example.spring.redis.model.Board;
+import com.example.spring.redis.model.Paging;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

@@ -1,0 +1,23 @@
+1.git checkout develop > 푸쉬 후 디벨롭으로 돌아오기
+2.git pull > 내가 푸쉬했지만 다시 한번 푸쉬받아오기
+3.git branch "feat/abc" 새로 작업할 브랜치 생성
+4.git checkout feat/abc 만든 브랜치에 체크아웃
+5.git push -u origin "feat/abc" 내가 만든 브랜치 연결
+
+===========================================================
+
+6.작업진행~~~git stash // 임시백업
+7.git fetch origin 누군가 업데이트한 develop 브런치 변경사항 불러만 옴(아직 abc)
+8.git merge origin/develop 누군가 업데이트한 develop브랜치의 변경사항들을 내 로컬 브랜치에도 merge
+git stash pop // 내꺼 다시 붙이기
+
+======================================================
+
+9.마저 작업진행 feat/abc
+10. git add
+git commit -m"커밋메세지
+git push 어쩌구
+
+11.git checkout develop 
+git pull 
+3번처럼 새 기능 브랜치 만들고 반복
