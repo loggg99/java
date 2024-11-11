@@ -1,37 +1,57 @@
 package com.example.tobi.springboot_basic_board_2.service;
 
+import com.example.tobi.springboot_basic_board_2.config.jwt.TokenProvider;
+import com.example.tobi.springboot_basic_board_2.config.security.CustomUserDetails;
 import com.example.tobi.springboot_basic_board_2.dto.SignInResponseDTO;
 import com.example.tobi.springboot_basic_board_2.mapper.MemberMapper;
 import com.example.tobi.springboot_basic_board_2.model.Member;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.time.Duration;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
 
     private final MemberMapper memberMapper;
+    private final AuthenticationManager authenticationManager;
+    private final TokenProvider tokenProvider;
 
     public void signUp(Member member) {
         memberMapper.signUp(member);
     }
 
-    public SignInResponseDTO signIn(Member member, HttpSession session) {
-        Member getMember = memberMapper.signIn(member.getUserId());
-        if (getMember == null) {
-            return makeSignInRequestDTO(false, "존재하지 않는 회원입니다.", null, null);
-        }
+    public SignInResponseDTO signIn(String username, String password) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(username, password)
+        );
 
-        if ( !member.getPassword().equals(getMember.getPassword()) ) {
-            return makeSignInRequestDTO(false, "비밀번호가 틀렸습니다.", null, null);
-        }
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // 세션 설정
-        session.setAttribute("userId", getMember.getUserId());
-        session.setAttribute("userName", getMember.getUserName());
+        Member member = ((CustomUserDetails) authentication.getPrincipal()).getMember();
 
-        return makeSignInRequestDTO(true, "로그인이 성공했습니다.", "/", member);
+        //Access Token
+        String accessToken = tokenProvider.generateToken(member, Duration.ofHours(2));
+
+        //Refresh Token
+        String refreshToken = tokenProvider.generateToken(member, Duration.ofHours(2));
+
+
+        return SignInResponseDTO.builder()
+                .isLoggedIn(true)
+                .message("로그인 성공")
+                .url("/")
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .userId(member.getUserId())
+                .userName(member.getUserName())
+                .build();
     }
 
 

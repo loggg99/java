@@ -1,13 +1,15 @@
 package com.example.tobi.springboot_basic_board_2.config.jwt;
 
+import com.example.tobi.springboot_basic_board_2.enums.Role;
 import com.example.tobi.springboot_basic_board_2.model.Member;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -15,7 +17,9 @@ import javax.crypto.spec.SecretKeySpec;
 
 import java.time.Duration;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -58,6 +62,7 @@ public class TokenProvider {
                     .getBody();
             log.info("Token validated");
             return 1;
+            //시큐리티 콘텍스트
         } catch (ExpiredJwtException e) {
             // 토큰이 만료된 경우
             log.info("Token is expired");
@@ -67,6 +72,43 @@ public class TokenProvider {
             log.info("Token is not valid");
             return 3;
         }
+    }
+
+    public Member getTokenDetails(String token) {
+        Claims claims = getClaims(token);
+        return Member.builder()
+                .id(claims.get("id", Long.class))
+                .userId(claims.getSubject())
+                .userName(claims.get("userName", String.class))
+                .role(Role.valueOf(claims.get("role", String.class)))
+                .build();
+    }
+
+    //토큰 기반으로 인증 정보를 가져오는 메서드
+    public Authentication getAuthentication(String token) {
+        Claims claims = getClaims(token);
+
+        // Claims에서 역할을 추출하고, GrantedAuthority로 변환
+
+        List<SimpleGrantedAuthority> authorities = Collections.singletonList(
+                new SimpleGrantedAuthority(String.valueOf(claims.get("role")))
+        );
+
+        // UserDetails 객체 생성
+        User user = new User(claims.getSubject(), "", authorities);
+
+        return new UsernamePasswordAuthenticationToken(user, token, authorities);
+
+
+    }
+
+    private Claims getClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSecretKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
     }
 
     private SecretKey getSecretKey() {
