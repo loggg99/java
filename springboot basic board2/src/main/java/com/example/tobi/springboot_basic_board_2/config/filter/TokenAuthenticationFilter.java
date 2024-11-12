@@ -26,7 +26,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException, java.io.IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws ServletException, IOException, java.io.IOException {
         // 검증 로직
         String requestURI = request.getRequestURI();
         log.info("requestURI: {}", requestURI);
@@ -45,6 +46,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         } else if (validateToken == 2) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
         }
 
         chain.doFilter(request, response);

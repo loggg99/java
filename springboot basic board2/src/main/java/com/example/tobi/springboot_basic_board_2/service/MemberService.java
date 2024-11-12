@@ -24,6 +24,7 @@ public class MemberService {
     private final TokenProvider tokenProvider;
 
     public void signUp(Member member) {
+
         memberMapper.signUp(member);
     }
 
