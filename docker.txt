@@ -1,0 +1,31 @@
+인텔리에서 프로젝트 생성 catalog-service
+powerShell 실행
+catalog-service디렉토리로 이동 // localhost:8081/확인은 cmd화면에서
+curl -X GET "http://localhost:81/" // -X GET은 안붙여도 무
+$ ./gradlew test // 녹색나오면 통과
+$ ./gradlew bootRun //실행하면 인텔리제이 돌린것처럼 spring글자나오고 start문구나옴
+
+도커데스크탑 설치
+$ docker -version 치면 Docker version 27.3.1, build ce12230 이라는게나옴
+$ ./gradlew bootBuildImage 
+$docker images
+catalog-service   0.0.1-SNAPSHOT   6a622536df1b   44 years ago   345MB //요런내용나오면 ok
+$ docker run catalog-service 8081:8081 catalog-service:0.0.1-SNAPSHOT //버전은 yml파일에서 확인
+--catalog-service 실행중--
+ctrl + c로 종료
+$ docker ps // 실행중인 프로그램이 있는지 확인
+$ docker ps -a //프로세스에 등록된 놈들 전부나와라
+
+$ docker logs container id // 한번확인하고 나오기
+$ docker logs container id-f //실시간상황확인하며 대기
+$ docker stop container id // 프로세스 종료
+
+$ docker run -d -p 81:8081 catalog-service:0.0.1-SNAPSHOT
+
+
+쿠퍼네티스 컨테이너관리
+powerShell 관리자모드실행
+$ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+$ choco install minikube -y
+$ minikube start --driver=hyperv

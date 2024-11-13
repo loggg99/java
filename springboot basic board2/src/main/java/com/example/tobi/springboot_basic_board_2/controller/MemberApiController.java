@@ -22,7 +22,8 @@ public class MemberApiController {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @PostMapping("/join")
-    public ResponseEntity<SignUpResponseDTO> signUp(@RequestBody SignUpRequestDTO signUpRequestDTO) {
+    public ResponseEntity<SignUpResponseDTO> signUp(
+            @RequestBody SignUpRequestDTO signUpRequestDTO) {
         memberService.signUp(signUpRequestDTO.toMember(bCryptPasswordEncoder));
         return ResponseEntity.ok(
                 SignUpResponseDTO.builder()

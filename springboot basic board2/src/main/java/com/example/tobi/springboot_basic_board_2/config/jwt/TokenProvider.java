@@ -28,6 +28,7 @@ public class TokenProvider {
 
     private final JwtProperties jwtProperties;
 
+    //토큰만료 시간설정
     public String generateToken(Member member, Duration expiredAt) {
         Date now = new Date();
         return makeToken(
