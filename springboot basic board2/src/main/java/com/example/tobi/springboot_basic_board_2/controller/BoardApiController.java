@@ -26,7 +26,7 @@ public class BoardApiController {
 
     private final BoardService boardService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping
     public BoardListResponseDTO getBoardList(
             @RequestParam(defaultValue = "1") int page,

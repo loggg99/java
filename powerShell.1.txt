@@ -1,0 +1,254 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+새로운 크로스 플랫폼 PowerShell 사용 https://aka.ms/pscore6
+
+PS C:\Windows\system32> docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+PS C:\Windows\system32> docker images
+REPOSITORY                            TAG              IMAGE ID       CREATED        SIZE
+paketobuildpacks/run-jammy-base       latest           8239d931b73e   2 days ago     164MB
+redis                                 latest           a06cea905344   5 weeks ago    174MB
+gcr.io/k8s-minikube/kicbase           v0.0.45          e7c9bc3bc515   2 months ago   1.81GB
+gcr.io/k8s-minikube/kicbase           <none>           81df28859520   2 months ago   1.81GB
+catalog_service                       0.0.1-SNAPSHOT   f3ad2c22cca1   44 years ago   649MB
+paketobuildpacks/builder-jammy-base   latest           cc091c78cabb   44 years ago   2.18GB
+PS C:\Windows\system32> minikube status
+minikube
+type: Control Plane
+host: Stopped
+kubelet: Stopped
+apiserver: Stopped
+kubeconfig: Stopped
+
+PS C:\Windows\system32> minikube start
+* Microsoft Windows 10 Pro 10.0.19045.5131 Build 19045.5131 의 minikube v1.34.0
+* 기존 프로필에 기반하여 docker 드라이버를 사용하는 중
+* Starting "minikube" primary control-plane node in "minikube" cluster
+* Pulling base image v0.0.45 ...
+* Restarting existing docker container for "minikube" ...
+! Failing to connect to https://registry.k8s.io/ from inside the minikube container
+* To pull new external images, you may need to configure a proxy: https://minikube.sigs.k8s.io/docs/reference/networking/proxy/
+* 쿠버네티스 v1.31.0 을 Docker 27.2.0 런타임으로 설치하는 중
+* Kubernetes 구성 요소를 확인...
+  - Using image gcr.io/k8s-minikube/storage-provisioner:v5
+* 애드온 활성화 : storage-provisioner, default-storageclass
+* 끝났습니다! kubectl이 "minikube" 클러스터와 "default" 네임스페이스를 기본적으로 사용하도록 구성되었습니다.
+PS C:\Windows\system32> minikube delete
+* docker 의 "minikube" 를 삭제하는 중 ...
+* Deleting container "minikube" ...
+* C:\Users\hi-pc-999\.minikube\machines\minikube 제거 중 ...
+* "minikube" 클러스터 관련 정보가 모두 삭제되었습니다
+PS C:\Windows\system32> minikube start
+* Microsoft Windows 10 Pro 10.0.19045.5131 Build 19045.5131 의 minikube v1.34.0
+* 자동적으로 docker 드라이버가 선택되었습니다. 다른 드라이버 목록: hyperv, ssh
+* Using Docker Desktop driver with root privileges
+* Starting "minikube" primary control-plane node in "minikube" cluster
+* Pulling base image v0.0.45 ...
+* Creating docker container (CPUs=2, Memory=4000MB) ...
+! Failing to connect to https://registry.k8s.io/ from inside the minikube container
+* To pull new external images, you may need to configure a proxy: https://minikube.sigs.k8s.io/docs/reference/networking/proxy/
+* 쿠버네티스 v1.31.0 을 Docker 27.2.0 런타임으로 설치하는 중
+  - 인증서 및 키를 생성하는 중 ...
+  - 컨트롤 플레인을 부팅하는 중 ...
+  - RBAC 규칙을 구성하는 중 ...
+* bridge CNI (Container Networking Interface) 를 구성하는 중 ...
+* Kubernetes 구성 요소를 확인...
+  - Using image gcr.io/k8s-minikube/storage-provisioner:v5
+* 애드온 활성화 : storage-provisioner, default-storageclass
+* 끝났습니다! kubectl이 "minikube" 클러스터와 "default" 네임스페이스를 기본적으로 사용하도록 구성되었습니다.
+PS C:\Windows\system32> minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+PS C:\Windows\system32> minikube start
+* Microsoft Windows 10 Pro 10.0.19045.5131 Build 19045.5131 의 minikube v1.34.0
+* 기존 프로필에 기반하여 docker 드라이버를 사용하는 중
+* Starting "minikube" primary control-plane node in "minikube" cluster
+* Pulling base image v0.0.45 ...
+* 실행중인 docker "minikube" container 를 업데이트 하는 중 ...
+! Failing to connect to https://registry.k8s.io/ from inside the minikube container
+* To pull new external images, you may need to configure a proxy: https://minikube.sigs.k8s.io/docs/reference/networking/proxy/
+* 쿠버네티스 v1.31.0 을 Docker 27.2.0 런타임으로 설치하는 중
+* Kubernetes 구성 요소를 확인...
+  - Using image gcr.io/k8s-minikube/storage-provisioner:v5
+* 애드온 활성화 : storage-provisioner, default-storageclass
+* 끝났습니다! kubectl이 "minikube" 클러스터와 "default" 네임스페이스를 기본적으로 사용하도록 구성되었습니다.
+PS C:\Windows\system32> docker pull registry.k8s.io/pause:3.9
+3.9: Pulling from pause
+61fec91190a0: Download complete
+Digest: sha256:7031c1b283388d2c2e09b57badb803c05ebed362dc88d84b480cc47f72a21097
+Status: Downloaded newer image for registry.k8s.io/pause:3.9
+registry.k8s.io/pause:3.9
+
+What's next:
+    View a summary of image vulnerabilities and recommendations → docker scout quickview registry.k8s.io/pause:3.9
+PS C:\Windows\system32> docker images
+REPOSITORY                            TAG              IMAGE ID       CREATED        SIZE
+paketobuildpacks/run-jammy-base       latest           8239d931b73e   2 days ago     164MB
+redis                                 latest           a06cea905344   5 weeks ago    174MB
+gcr.io/k8s-minikube/kicbase           v0.0.45          e7c9bc3bc515   2 months ago   1.81GB
+gcr.io/k8s-minikube/kicbase           <none>           81df28859520   2 months ago   1.81GB
+registry.k8s.io/pause                 3.9              7031c1b28338   2 years ago    1.07MB
+catalog_service                       0.0.1-SNAPSHOT   f3ad2c22cca1   44 years ago   649MB
+paketobuildpacks/builder-jammy-base   latest           cc091c78cabb   44 years ago   2.18GB
+PS C:\Windows\system32> docker ps
+CONTAINER ID   IMAGE                                 COMMAND                   CREATED         STATUS         PORTS                                                                                                                                  NAMES
+d1a9380ba60c   gcr.io/k8s-minikube/kicbase:v0.0.45   "/usr/local/bin/entr…"   3 minutes ago   Up 3 minutes   127.0.0.1:58809->22/tcp, 127.0.0.1:58810->2376/tcp, 127.0.0.1:58807->5000/tcp, 127.0.0.1:58808->8443/tcp, 127.0.0.1:58806->32443/tcp   minikube
+PS C:\Windows\system32> minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+PS C:\Windows\system32> kubectl get nodes
+NAME       STATUS   ROLES           AGE     VERSION
+minikube   Ready    control-plane   6m26s   v1.31.0
+PS C:\Windows\system32> minikube image load catalog-service:0.0.1-SNAPSHOT
+! The image 'catalog-service:0.0.1-SNAPSHOT' was not found; unable to add it to cache.
+PS C:\Windows\system32> docker image
+
+Usage:  docker image COMMAND
+
+Manage images
+
+Commands:
+  build       Build an image from a Dockerfile
+  history     Show the history of an image
+  import      Import the contents from a tarball to create a filesystem image
+  inspect     Display detailed information on one or more images
+  load        Load an image from a tar archive or STDIN
+  ls          List images
+  prune       Remove unused images
+  pull        Download an image from a registry
+  push        Upload an image to a registry
+  rm          Remove one or more images
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+
+Run 'docker image COMMAND --help' for more information on a command.
+PS C:\Windows\system32> docker images
+REPOSITORY                            TAG              IMAGE ID       CREATED        SIZE
+paketobuildpacks/run-jammy-base       latest           8239d931b73e   2 days ago     164MB
+redis                                 latest           a06cea905344   5 weeks ago    174MB
+gcr.io/k8s-minikube/kicbase           v0.0.45          e7c9bc3bc515   2 months ago   1.81GB
+gcr.io/k8s-minikube/kicbase           <none>           81df28859520   2 months ago   1.81GB
+registry.k8s.io/pause                 3.9              7031c1b28338   2 years ago    1.07MB
+catalog_service                       0.0.1-SNAPSHOT   f3ad2c22cca1   44 years ago   649MB
+paketobuildpacks/builder-jammy-base   latest           cc091c78cabb   44 years ago   2.18GB
+PS C:\Windows\system32> minikube image load catalog-service:0.0.1-SNAPSHOT
+! The image 'catalog-service:0.0.1-SNAPSHOT' was not found; unable to add it to cache.
+PS C:\Windows\system32> minikube docker-env
+$Env:DOCKER_TLS_VERIFY = "1"
+$Env:DOCKER_HOST = "tcp://127.0.0.1:58810"
+$Env:DOCKER_CERT_PATH = "C:\Users\hi-pc-999\.minikube\certs"
+$Env:MINIKUBE_ACTIVE_DOCKERD = "minikube"
+# To point your shell to minikube's docker-daemon, run:
+# & minikube -p minikube docker-env --shell powershell | Invoke-Expression
+PS C:\Windows\system32> minikube image load catalog-service:0.0.1-SNAPSHOT
+! The image 'catalog-service:0.0.1-SNAPSHOT' was not found; unable to add it to cache.
+PS C:\Windows\system32> minikube cache add catalog_service:0.0.1-SNAPSHOT
+! "minikube cache"는 추후 버전에서 사용 중단됩니다. "minikube image load"로 전환하세요
+PS C:\Windows\system32> minikube image load catalog_service:0.0.1-SNAPSHOT
+PS C:\Windows\system32> docker images
+REPOSITORY                            TAG              IMAGE ID       CREATED        SIZE
+paketobuildpacks/run-jammy-base       latest           8239d931b73e   2 days ago     164MB
+redis                                 latest           a06cea905344   5 weeks ago    174MB
+gcr.io/k8s-minikube/kicbase           v0.0.45          e7c9bc3bc515   2 months ago   1.81GB
+gcr.io/k8s-minikube/kicbase           <none>           81df28859520   2 months ago   1.81GB
+registry.k8s.io/pause                 3.9              7031c1b28338   2 years ago    1.07MB
+catalog_service                       0.0.1-SNAPSHOT   f3ad2c22cca1   44 years ago   649MB
+paketobuildpacks/builder-jammy-base   latest           cc091c78cabb   44 years ago   2.18GB
+PS C:\Windows\system32> minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+PS C:\Windows\system32> docker ps
+CONTAINER ID   IMAGE                                 COMMAND                   CREATED          STATUS          PORTS                                                                                                                                  NAMES
+d1a9380ba60c   gcr.io/k8s-minikube/kicbase:v0.0.45   "/usr/local/bin/entr…"   19 minutes ago   Up 19 minutes   127.0.0.1:58809->22/tcp, 127.0.0.1:58810->2376/tcp, 127.0.0.1:58807->5000/tcp, 127.0.0.1:58808->8443/tcp, 127.0.0.1:58806->32443/tcp   minikube
+PS C:\Windows\system32> minicube status
+minicube : 'minicube' 용어가 cmdlet, 함수, 스크립트 파일 또는 실행할 수 있는 프로그램 이름으로 인식되지 않습니다. 이름이 정확한지 확인하고 경로가 포함된 경우 경로가 올바른지
+ 검증한 다음 다시 시도하십시오.
+위치 줄:1 문자:1
++ minicube status
++ ~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (minicube:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\Windows\system32> minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+PS C:\Windows\system32> minicube start
+minicube : 'minicube' 용어가 cmdlet, 함수, 스크립트 파일 또는 실행할 수 있는 프로그램 이름으로 인식되지 않습니다. 이름이 정확한지 확인하고 경로가 포함된 경우 경로가 올바른지
+ 검증한 다음 다시 시도하십시오.
+위치 줄:1 문자:1
++ minicube start
++ ~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (minicube:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\Windows\system32> minikube start
+* Microsoft Windows 10 Pro 10.0.19045.5131 Build 19045.5131 의 minikube v1.34.0
+* 기존 프로필에 기반하여 docker 드라이버를 사용하는 중
+* Starting "minikube" primary control-plane node in "minikube" cluster
+* Pulling base image v0.0.45 ...
+* 실행중인 docker "minikube" container 를 업데이트 하는 중 ...
+! Failing to connect to https://registry.k8s.io/ from inside the minikube container
+* To pull new external images, you may need to configure a proxy: https://minikube.sigs.k8s.io/docs/reference/networking/proxy/
+* 쿠버네티스 v1.31.0 을 Docker 27.2.0 런타임으로 설치하는 중
+* Kubernetes 구성 요소를 확인...
+  - Using image gcr.io/k8s-minikube/storage-provisioner:v5
+* 애드온 활성화 : storage-provisioner, default-storageclass
+* 끝났습니다! kubectl이 "minikube" 클러스터와 "default" 네임스페이스를 기본적으로 사용하도록 구성되었습니다.
+PS C:\Windows\system32> kubectl get node
+NAME       STATUS   ROLES           AGE   VERSION
+minikube   Ready    control-plane   24m   v1.31.0
+PS C:\Windows\system32> minikube ssh -- docker images
+REPOSITORY                                TAG              IMAGE ID       CREATED         SIZE
+registry.k8s.io/kube-apiserver            v1.31.0          604f5db92eaa   3 months ago    94.2MB
+registry.k8s.io/kube-scheduler            v1.31.0          1766f54c897f   3 months ago    67.4MB
+registry.k8s.io/kube-controller-manager   v1.31.0          045733566833   3 months ago    88.4MB
+registry.k8s.io/kube-proxy                v1.31.0          ad83b2ca7b09   3 months ago    91.5MB
+registry.k8s.io/etcd                      3.5.15-0         2e96e5913fc0   3 months ago    148MB
+registry.k8s.io/pause                     3.10             873ed7510279   5 months ago    736kB
+registry.k8s.io/coredns/coredns           v1.11.1          cbb01a7bd410   15 months ago   59.8MB
+gcr.io/k8s-minikube/storage-provisioner   v5               6e38f40d628d   3 years ago     31.5MB
+catalog_service                           0.0.1-SNAPSHOT   0cd5752ed68e   44 years ago    345MB
+PS C:\Windows\system32> kubectl create deployment catalog_service --image==catalog_service:0.0.1-SNAPSHOT
+error: failed to create deployment: Deployment.apps "catalog_service" is invalid: [metadata.name: Invalid value: "catalog_service": a lowercase RFC 1123 subdomain must consist of lower case alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character (e.g. 'example.com', regex used for validation is '[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*'), spec.template.spec.containers[0].name: Invalid value: "=catalog-service-czq28": a lowercase RFC 1123 label must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character (e.g. 'my-name',  or '123-abc', regex used for validation is '[a-z0-9]([-a-z0-9]*[a-z0-9])?')]
+PS C:\Windows\system32> kubectl create deployment catalog-service --image=catalog_service:0.0.1-SNAPSHOT
+deployment.apps/catalog-service created
+PS C:\Windows\system32> kubectl expose deployment catalog-service --name=catalog_service --port=91 --target-port=8099
+The Service "catalog_service" is invalid: metadata.name: Invalid value: "catalog_service": a DNS-1035 label must consist of lower case alphanumeric characters or '-', start with an alphabetic character, and end with an alphanumeric character (e.g. 'my-name',  or 'abc-123', regex used for validation is '[a-z]([-a-z0-9]*[a-z0-9])?')
+PS C:\Windows\system32> kubectl expose deployment catalog-service --name=catalog-service --port=91 --target-port=8099
+service/catalog-service exposed
+PS C:\Windows\system32> kubectl port-fowrwad service/catalog-service 8099:91
+error: unknown command "port-fowrwad" for "kubectl"
+
+Did you mean this?
+        port-forward
+PS C:\Windows\system32> kubectl port-forward service/catalog-service 8099:91
+Forwarding from 127.0.0.1:8099 -> 8099
+Forwarding from [::1]:8099 -> 8099
+Handling connection for 8099
+Handling connection for 8099
+PS C:\Windows\system32> ^C
+PS C:\Windows\system32> docker ps
+CONTAINER ID   IMAGE                                 COMMAND                   CREATED       STATUS       PORTS                                                                                                                                  NAMES
+d1a9380ba60c   gcr.io/k8s-minikube/kicbase:v0.0.45   "/usr/local/bin/entr…"   2 hours ago   Up 2 hours   127.0.0.1:58809->22/tcp, 127.0.0.1:58810->2376/tcp, 127.0.0.1:58807->5000/tcp, 127.0.0.1:58808->8443/tcp, 127.0.0.1:58806->32443/tcp   minikube
+PS C:\Windows\system32>

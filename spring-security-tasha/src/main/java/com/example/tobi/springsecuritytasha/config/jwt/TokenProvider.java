@@ -49,7 +49,6 @@ public class TokenProvider {
                 .claim("userName", member.getUserName())
                 .signWith(getSecretKey(), SignatureAlgorithm.HS512)
                 .compact();
-
     }
 
     public int validateToken(String token) {
@@ -59,16 +58,17 @@ public class TokenProvider {
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
-            log.info("token validated");
+            log.info("Token validated");
             return 1;
         } catch (ExpiredJwtException e) {
-            log.info("token is expired");
+            // 토큰이 만료된 경우
+            log.info("Token is expired");
             return 2;
         } catch (Exception e) {
-            log.info("token is invalid");
+            // 복호화 과정에서 에러 발생
+            log.info("Token is not valid");
             return 3;
         }
-
     }
 
     public Member getTokenDetails(String token) {
@@ -77,23 +77,23 @@ public class TokenProvider {
                 .id(claims.get("id", Long.class))
                 .userId(claims.getSubject())
                 .userName(claims.get("userName", String.class))
-                .role(Role.valueOf(claims.get("role", String.class)))
+                .role(Role.valueOf( claims.get("role", String.class) ))
                 .build();
-
     }
 
+    // 토큰 기반으로 인증 정보를 가져오는 메서드
     public Authentication getAuthentication(String token) {
         Claims claims = getClaims(token);
 
+        // Claims에서 역할을 추출하고, GrantedAuthority로 변환
         List<SimpleGrantedAuthority> authorities = Collections.singletonList(
                 new SimpleGrantedAuthority(String.valueOf(claims.get("role")))
         );
 
+        // UserDetails 객체 생성
         User user = new User(claims.getSubject(), "", authorities);
 
         return new UsernamePasswordAuthenticationToken(user, token, authorities);
-
-
     }
 
     private Claims getClaims(String token) {
@@ -104,12 +104,9 @@ public class TokenProvider {
                 .getBody();
     }
 
-
-
     private SecretKey getSecretKey() {
         byte[] keyBytes = Base64.getDecoder().decode(jwtProperties.getSecretKey());
         return Keys.hmacShaKeyFor(keyBytes);
-
     }
 
 

@@ -1,7 +1,7 @@
 
 $(document).ready(() => {
     checkToken();
-    setUpAjax();
+    setupAjax();
     getUserInfo().then((userInfo) => {
         $('#hiddenUserId').val(userInfo.userId);
         $('#hiddenUserName').val(userInfo.userName);

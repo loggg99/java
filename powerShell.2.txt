@@ -1,0 +1,121 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+새로운 크로스 플랫폼 PowerShell 사용 https://aka.ms/pscore6
+
+PS C:\Windows\system32> kubectl port-forward service/catalog-service 8099:91
+Unable to listen on port 8099: Listeners failed to create with the following errors: [unable to create listener: Error listen tcp4 127.0.0.1:8099: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted. unable to create listener: Error listen tcp6 [::1]:8099: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted.]
+error: unable to listen on any of the requested ports: [{8099 8099}]
+PS C:\Windows\system32> kubectl port-forward service/catalog-service 91:8099
+error: Service catalog-service does not have a service port 8099
+PS C:\Windows\system32> kubectl get service catalog-service -o yaml
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2024-11-14T01:36:31Z"
+  labels:
+    app: catalog-service
+  name: catalog-service
+  namespace: default
+  resourceVersion: "2225"
+  uid: 03f6660c-31f8-4728-8f9e-5d7ea580e5f9
+spec:
+  clusterIP: 10.104.217.63
+  clusterIPs:
+  - 10.104.217.63
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - port: 91
+    protocol: TCP
+    targetPort: 8099
+  selector:
+    app: catalog-service
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
+PS C:\Windows\system32> kubectl port-forward service/catalog-service 91:91
+Forwarding from 127.0.0.1:91 -> 8099
+Forwarding from [::1]:91 -> 8099
+Handling connection for 91
+Handling connection for 91
+PS C:\Windows\system32> kubectl port-forward service/catalog-service 91:91
+Forwarding from 127.0.0.1:91 -> 8099
+Forwarding from [::1]:91 -> 8099
+Handling connection for 91
+Handling connection for 91
+PS C:\Windows\system32> ^C
+PS C:\Windows\system32> kubectl port-forward service/catalog-service 8000:91
+Forwarding from 127.0.0.1:8000 -> 8099
+Forwarding from [::1]:8000 -> 8099
+Handling connection for 8000
+Handling connection for 8000
+Handling connection for 8000
+Handling connection for 8000
+PS C:\Windows\system32> kubectl get service catalog-service -o yaml
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2024-11-14T01:36:31Z"
+  labels:
+    app: catalog-service
+  name: catalog-service
+  namespace: default
+  resourceVersion: "2225"
+  uid: 03f6660c-31f8-4728-8f9e-5d7ea580e5f9
+spec:
+  clusterIP: 10.104.217.63
+  clusterIPs:
+  - 10.104.217.63
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - port: 91
+    protocol: TCP
+    targetPort: 8099
+  selector:
+    app: catalog-service
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
+PS C:\Windows\system32> kubectl port-forward service/catalog-service 81:91
+Forwarding from 127.0.0.1:81 -> 8099
+Forwarding from [::1]:81 -> 8099
+Handling connection for 81
+Handling connection for 81
+PS C:\Windows\system32> kubectl get service catalog-service -o yaml
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2024-11-14T01:36:31Z"
+  labels:
+    app: catalog-service
+  name: catalog-service
+  namespace: default
+  resourceVersion: "2225"
+  uid: 03f6660c-31f8-4728-8f9e-5d7ea580e5f9
+spec:
+  clusterIP: 10.104.217.63
+  clusterIPs:
+  - 10.104.217.63
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - port: 91
+    protocol: TCP
+    targetPort: 8099
+  selector:
+    app: catalog-service
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
+PS C:\Windows\system32>

@@ -45,6 +45,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         } else if (validateToken == 2) {
 
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            log.info("Invalid token, returning 401 Unauthorized");
             return;
 
         }

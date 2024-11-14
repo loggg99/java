@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
 
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
@@ -36,22 +38,31 @@ public class WebSecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
-                .authorizeRequests(
+                .authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers(
                                         new AntPathRequestMatcher("/member/login"),
                                         new AntPathRequestMatcher("/member/join"),
                                         new AntPathRequestMatcher("/join"),
-                                        new AntPathRequestMatcher("/")
+                                        new AntPathRequestMatcher("/login"),
+                                        new AntPathRequestMatcher("/"),
+                                        new AntPathRequestMatcher("/write"),
+                                        new AntPathRequestMatcher("/detail"),
+                                        new AntPathRequestMatcher("/update/**"),
+                                        new AntPathRequestMatcher("/api/board/file/download/**"),
+                                        new AntPathRequestMatcher("access-denied")
                                 ).permitAll()
                                 .anyRequest().authenticated()
-
                 )
-                .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) //JWT필터 추가
                 .exceptionHandling(exception -> exception
-                        .accessDeniedHandler(accessDeniedHandler())
-                        .authenticationEntryPoint(authenticationEntryPoint())
-                );
+                        .accessDeniedHandler(accessDeniedHandler()) // 403
+                        .authenticationEntryPoint(authenticationEntryPoint()) // 401
+                )
+
+        ;
+
+
         return http.build();
     }
 

@@ -37,9 +37,11 @@ public class MemberApiController {
             @RequestBody SignInRequestDTO signInRequestDTO,
             HttpServletResponse response
     ) {
+
         SignInResponseDTO signInResponseDTO = memberService.signIn(signInRequestDTO.getUserId(), signInRequestDTO.getPassword());
 
         CookieUtil.addCookie(response, "refreshToken", signInResponseDTO.getRefreshToken(), 7 * 24 * 60 * 60);
+
         signInResponseDTO.setRefreshToken(null);
 
         return ResponseEntity.ok(signInResponseDTO);

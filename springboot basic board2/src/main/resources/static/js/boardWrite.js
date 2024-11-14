@@ -2,7 +2,7 @@ let selectedFile = null; // 파일은 1개만 선택 가능
 
 $(document).ready(() => {
     checkToken();
-    setUpAjax();
+    setupAjax();
 
     getUserInfo().then((userInfo) => {
         $('#hiddenUserId').val(userInfo.userId);

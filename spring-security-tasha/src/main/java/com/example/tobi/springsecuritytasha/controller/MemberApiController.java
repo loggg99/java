@@ -1,13 +1,15 @@
 package com.example.tobi.springsecuritytasha.controller;
 
-import com.example.tobi.springsecuritytasha.dto.SignInRequestDTO;
-import com.example.tobi.springsecuritytasha.dto.SignInResponseDTO;
-import com.example.tobi.springsecuritytasha.dto.SignUpRequestDTO;
-import com.example.tobi.springsecuritytasha.dto.SignUpResponseDTO;
+import com.example.tobi.springsecuritytasha.dto.*;
+import com.example.tobi.springsecuritytasha.model.Member;
 import com.example.tobi.springsecuritytasha.service.MemberService;
+import com.example.tobi.springsecuritytasha.util.CookieUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,8 +32,44 @@ public class MemberApiController {
         );
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<SignInResponseDTO> signIn(
+            @RequestBody SignInRequestDTO signInRequestDTO,
+            HttpServletResponse response
+    ) {
 
+        SignInResponseDTO signInResponseDTO = memberService.signIn(signInRequestDTO.getUserId(), signInRequestDTO.getPassword());
 
+        CookieUtil.addCookie(response, "refreshToken", signInResponseDTO.getRefreshToken(), 7 * 24 * 60 * 60);
+
+        signInResponseDTO.setRefreshToken(null);
+
+        return ResponseEntity.ok(signInResponseDTO);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<LogoutResponseDTO> logout(HttpServletRequest request, HttpServletResponse response) {
+        CookieUtil.deleteCookie(request, response, "refreshToken");
+        return ResponseEntity.ok(
+                LogoutResponseDTO.builder()
+                        .message("로그아웃 되었습니다.")
+                        .url("/member/login")
+                        .build()
+        );
+    }
+
+    @GetMapping("/user/info")
+    public ResponseEntity<UserInfoResponseDTO> getUserInfo(HttpServletRequest request) {
+        Member member = (Member) request.getAttribute("member");
+        return ResponseEntity.ok(
+                UserInfoResponseDTO.builder()
+                        .Id(member.getId())
+                        .userId(member.getUserId())
+                        .userName(member.getUserName())
+                        .role(member.getRole())
+                        .build()
+        );
+    }
 
 
 }
