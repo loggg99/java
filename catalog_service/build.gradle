@@ -9,7 +9,7 @@ version = '0.0.1-SNAPSHOT'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(23)
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
@@ -23,14 +23,45 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    set('springCloudVersion', "2023.0.3")
+}
+
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // Spring Boot 기본 의존성
+    implementation 'org.springframework.boot:spring-boot-starter-web' // Spring MVC
+    implementation 'org.springframework.boot:spring-boot-starter-validation' // Validation 관련
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.retry:spring-retry:2.0.10'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    // 테스트 의존성
+    testImplementation 'org.springframework.boot:spring-boot-starter-test' // JUnit 5 포함
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // Jakarta Validation API (이것만 필요)
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.0'
+
+    // JUnit 5 (spring-boot-starter-test가 이미 JUnit 5를 포함하므로 생략 가능)
+    // testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
+    // testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
+}
+
+bootRun {
+    systemProperty('spring.profiles.active', 'testdata')
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+    useJUnitPlatform() // JUnit 5 설정
 }

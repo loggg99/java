@@ -1,0 +1,5 @@
+docker run -d --name polar-mysql -e POSTGRES_USER=user -e POSTGRES_PASSWORD=1234 -e POSTGRES_DB=catolog -p
+5432:5432 postgres:14.4
+
+선생님
+docker run -d --name polar-mysql -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_USER=user -e MYSQL_PASSWORD=1234 -e MYSQL_DATABASE=catalog -p 3307:3306 mysql:8.4
